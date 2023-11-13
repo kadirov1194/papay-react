@@ -8,21 +8,21 @@
 }
 
 /* NAVBAR RESTAURANT */
-.format_restaurant {
+.format_restaurant .home_navbar {
   width: 100%;
   height: 400px;
   display: flex;
-  background: url(/public/homeImg/headerImg.png);
   background-size: cover;
+  background: url("/public/restaurant/header_restaurant.png");
 }
 
 /* OTHERS HEADER */
-.format__others {
+.format__others .home_navbar {
   width: 100%;
   height: 400px;
   display: flex;
-  background: url(/public/others/other.png);
   background-size: cover;
+  background: url("/public/others/others.png");
 }
 
 .home_navbar .navbar_config {

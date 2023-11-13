@@ -19,7 +19,7 @@ export function NavbarHome(props: any) {
           justifyContent={"space-between"}
         >
           <Box className="hover_line">
-            <img src="icons/Papay.svg" />
+            <img src="/public/icons/Papay.svg" />
           </Box>
 
           <Stack
@@ -93,7 +93,7 @@ export function NavbarHome(props: any) {
             style={{ marginTop: "86px", marginLeft: "24px" }}
           >
             <Box className="welcom_icon">
-              <img src="/icons/welcome.svg" alt="welcomePapayIcon" />
+              <img src="/icons/welcome.svg" />
             </Box>
             <Box className="define_restaurant">
               The Authentic Restaurant & Cafe
