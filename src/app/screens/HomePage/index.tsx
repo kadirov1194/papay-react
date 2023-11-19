@@ -6,7 +6,7 @@ import { BestRestaurants } from "./bestRestaurants";
 import { BestDishes } from "./bestDishes";
 import { Advertisements } from "./advertisements";
 import { Events } from "./events";
-import { Recommendation } from "./recommendation";
+import { Recommendations } from "./recommendation";
 import "../../../css/home.css";
 
 export function HomePage() {
@@ -18,7 +18,7 @@ export function HomePage() {
       <BestDishes />
       <Advertisements />
       <Events />
-      <Recommendation />
+      <Recommendations />
     </div>
   );
 }
