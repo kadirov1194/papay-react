@@ -41,10 +41,10 @@ export function AllRestaurants() {
             }}
           >
             <Box className={"fill_box"}>
-              <a>Best</a>
-              <a>Famous</a>
-              <a>Trending</a>
-              <a>New</a>
+              <a>Zo'r</a>
+              <a>Mashhur</a>
+              <a>Trendagi</a>
+              <a>yangi</a>
             </Box>
             <Box className={"search_big_box"}>
               <form className={"search_form"} action={""} method={""}>
@@ -79,7 +79,7 @@ export function AllRestaurants() {
                   >
                     <CardOverflow>
                       <AspectRatio ratio="1">
-                        <img src={"/restaurant/burak.jpeg"} />
+                        <img src={"/restaurant/burak.jpg"} />
                       </AspectRatio>
                       <IconButton
                         aria-label="Like minimal photography"
@@ -100,7 +100,7 @@ export function AllRestaurants() {
                       </IconButton>
                     </CardOverflow>
                     <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      Texas De Brazil
+                      Burak
                     </Typography>
                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 2 }}>
                       <Link
@@ -117,7 +117,7 @@ export function AllRestaurants() {
                         startDecorator={<CallIcon />}
                         textColor="neutral.700"
                       >
-                        998902669955
+                        998942220252
                       </Link>
                     </Typography>
                     <CardOverflow
