@@ -19,7 +19,7 @@ export function NavbarOthers(props: any) {
           justifyContent={"space-between"}
         >
           <Box className="hover_line">
-            <img src="icons/Papay.svg" />
+            <img src="icons/papay.svg" />
           </Box>
 
           <Stack
