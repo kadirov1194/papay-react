@@ -94,13 +94,13 @@ export function OrdersPage(props: any) {
               <input
                 type={"text"}
                 name={"card_period"}
-                placeholder={"08 / 19"}
+                placeholder={"02 / 27"}
                 className={"card_half_input"}
               />
               <input
                 type={"text"}
                 name={"card_cvv"}
-                placeholder={"CVV : 012"}
+                placeholder={"CVV : 669"}
                 className={"card_half_input"}
               />
             </div>

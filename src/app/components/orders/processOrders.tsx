@@ -18,11 +18,13 @@ export default function ProcessOrders(props: any) {
             <Box className={"order_main_box"}>
               <Box className={"order_box_scroll"}>
                 {order.map(() => {
-                  const image_path = "/others/shurva.jpg";
+                  const image_path = "/others/taom.png";
                   return (
                     <Box className={"ordersName_price"}>
                       <img src={image_path} className={"orderDishImg"} />
-                      <p className={"titleDish"}>shurva</p>
+                      <p className={"titleDish"}>
+                        Qovurilgan go’sht cho’poncha
+                      </p>
                       <Box className={"priceBox"}>
                         <p>$7</p>
                         <img src={"/icons/close.svg"} />
