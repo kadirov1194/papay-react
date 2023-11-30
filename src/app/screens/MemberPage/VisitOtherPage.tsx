@@ -19,6 +19,7 @@ import { MemberPosts } from "./memberPosts";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
+import TViewer from "../../components/tuiEditor/TViewver";
 
 export function VisitOtherPage(_props: any) {
   //INITIALIZIATION
@@ -81,7 +82,9 @@ export function VisitOtherPage(_props: any) {
 
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
-                  <Box className={"menu_content"}></Box>
+                  <Box className={"menu_content"}>
+                    <TViewer />
+                  </Box>
                 </TabPanel>
               </Box>
             </Stack>
@@ -102,7 +105,7 @@ export function VisitOtherPage(_props: any) {
                       <img src="/icons/default_image.png" alt="" />
                     </div>
                   </div>
-                  <span className="order_user_name">Bakha Sila</span>
+                  <span className="order_user_name">Monica</span>
                   <span className="order_user_prof">USER</span>
                 </Box>
                 <Box className={"user_media_box"}>
@@ -186,7 +189,7 @@ export function VisitOtherPage(_props: any) {
                     value={"3"}
                     component={() => (
                       <div className={`menu_box ${value}`}>
-                        <img src="/icons/user.svg" alt="" />
+                        <img src="/icons/user_icon.svg" alt="" />
                         <span>Following</span>
                       </div>
                     )}

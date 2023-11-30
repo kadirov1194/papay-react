@@ -22,7 +22,7 @@ import { MemberPosts } from "./memberPosts";
 
 export function VisitMyPage(props: any) {
   //INITIALIZIATION
-  const [value, setValue] = useState("6");
+  const [value, setValue] = useState("5");
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
