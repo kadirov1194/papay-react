@@ -11,6 +11,21 @@ class Car extends Component {
       year: 1964,
     };
   }
+
+  componentDidMount() {
+    console.log("run componentDidMount");
+
+    // runs after first render RETRIEVE DATA FROM BACKEND SERVER
+  }
+
+  componentWillUnmount() {
+    console.log("run componentDidMount");
+
+    // runs after componer unmount render
+  }
+
+  componentDidUpdate() {}
+
   changeColor = () => {
     this.setState({ color: "blue" });
   };
