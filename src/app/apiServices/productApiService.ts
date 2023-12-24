@@ -1,4 +1,4 @@
-import { serviceApi } from "../../lib/config";
+import { serverApi } from "../../lib/config";
 import assert from "assert";
 import axios from "axios";
 import { Definer } from "../../lib/Definer";
@@ -9,7 +9,7 @@ class ProductApiService {
   private readonly path: string;
 
   constructor() {
-    this.path = serviceApi;
+    this.path = serverApi;
   }
 
   async getTargetProducts(data: ProductSearchObj) {
