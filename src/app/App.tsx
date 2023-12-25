@@ -17,7 +17,7 @@ import { NavbarHome } from "./components/header";
 import { NavbarRestaurant } from "./components/header/restaurant";
 import { NavbarOthers } from "./components/header/others";
 import { Footer } from "./components/footer";
-import Car from "./screens/testCar";
+import AuthenticationModel from "./components/auth/index";
 
 function App() {
   const [path, setPath] = useState();
@@ -53,12 +53,12 @@ function App() {
           <LoginPage />
         </Route>
         <Route path="/">
-          {/* <Car /> */}
           <HomePage />
         </Route>
       </Switch>
 
       <Footer />
+      <AuthenticationModel />
     </Router>
   );
 }
