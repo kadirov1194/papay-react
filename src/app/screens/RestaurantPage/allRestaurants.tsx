@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
@@ -23,10 +24,50 @@ import CallIcon from "@mui/icons-material/Call";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 
-const order_list = Array.from(Array(8).keys());
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setTargetRestaurants } from "../../screens/RestaurantPage/slice";
+import { retrieveTargetRestaurants } from "../../screens/RestaurantPage/selector";
+import { Restaurant } from "../../../types/user";
+import { SearchObj } from "../../../types/others";
+import { serverApi } from "../../../lib/config";
+
+//** Redux Slice */
+const actionDispatch = (dispatch: Dispatch) => ({
+  setTargetRestaurants: (data: Restaurant[]) =>
+    dispatch(setTargetRestaurants(data)),
+});
+
+// Redux Selector
+const targetRestaurantsRetriever = createSelector(
+  retrieveTargetRestaurants,
+  (targetRestaurants) => ({
+    targetRestaurants,
+  })
+);
 
 export function AllRestaurants() {
+  // Initializations
+  const { setTargetRestaurants } = actionDispatch(useDispatch());
+  const { targetRestaurants } = useSelector(targetRestaurantsRetriever);
+  const [targetSearchObject, setTargetSearchObject] = useState<SearchObj>({
+    page: 1,
+    limit: 8,
+    order: "mb_point",
+  });
+
+  const refs: any = useRef([]);
+  const history = useHistory();
+
+  useEffect(() => {}, []); // componentDidUpdate
+
   return (
     <div className="all_restaurant">
       <Container>
@@ -40,12 +81,7 @@ export function AllRestaurants() {
               justifyContent: "space-between",
             }}
           >
-            <Box className={"fill_box"}>
-              <a>Zo'r</a>
-              <a>Mashhur</a>
-              <a>Trendagi</a>
-              <a>yangi</a>
-            </Box>
+            <Box className={"fill_box"}></Box>
             <Box className={"search_big_box"}>
               <form className={"search_form"} action={""} method={""}>
                 <input
@@ -58,15 +94,14 @@ export function AllRestaurants() {
                   className={"button_search"}
                   variant="contained"
                   endIcon={<SearchIcon />}
-                >
-                  {/* Search */}
-                </Button>
+                ></Button>
               </form>
             </Box>
           </Box>
           <Stack className={"all_res_box"}>
             <CssVarsProvider>
-              {order_list.map((ele) => {
+              {targetRestaurants.map((ele: Restaurant) => {
+                const image_path = `${serverApi}/${ele.mb_image}`;
                 return (
                   <Card
                     variant="outlined"
@@ -75,11 +110,13 @@ export function AllRestaurants() {
                       minWidth: 290,
                       mx: "17px",
                       my: "20px",
+                      cursor: "pointer",
                     }}
+                    key={ele._id}
                   >
                     <CardOverflow>
                       <AspectRatio ratio="1">
-                        <img src={"/restaurant/burak.jpg"} />
+                        <img src={image_path} alt="" />
                       </AspectRatio>
                       <IconButton
                         aria-label="Like minimal photography"
@@ -96,11 +133,18 @@ export function AllRestaurants() {
                           color: "rgba(0,0,0,.4)",
                         }}
                       >
-                        <Favorite /* @ts-ignore */ style={{ color: "white" }} />
+                        <Favorite
+                          style={{
+                            fill:
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
+                                ? "red"
+                                : "white",
+                          }}
+                        />
                       </IconButton>
                     </CardOverflow>
                     <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      Burak
+                      {ele.mb_nick} restaurant
                     </Typography>
                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 2 }}>
                       <Link
@@ -108,16 +152,16 @@ export function AllRestaurants() {
                         startDecorator={<LocationOnRoundedIcon />}
                         textColor="neutral.700"
                       >
-                        Tashkent Yunusabad
+                        {ele.mb_address}
+                        {/* Tashkent Yunusabad */}
                       </Link>
                     </Typography>
                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 2 }}>
                       <Link
-                        href=""
                         startDecorator={<CallIcon />}
-                        textColor="neutral.700"
+                        textColor={"neutral.700"}
                       >
-                        998942220252
+                        {ele.mb_phone}
                       </Link>
                     </Typography>
                     <CardOverflow
@@ -141,7 +185,7 @@ export function AllRestaurants() {
                           display: "flex",
                         }}
                       >
-                        100{""}
+                        {ele.mb_views}
                         <VisibilityIcon
                           sx={{ fontSize: 20, marginLeft: "5px" }}
                         />
@@ -156,8 +200,12 @@ export function AllRestaurants() {
                           display: "flex",
                         }}
                       >
-                        <div>50</div>
-                        <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
+                        <div
+                          ref={(element) => (refs.current[ele._id] = element)}
+                        >
+                          {ele.mb_likes}
+                        </div>
+                        <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />{" "}
                       </Typography>
                     </CardOverflow>
                   </Card>
@@ -169,8 +217,10 @@ export function AllRestaurants() {
           <Stack className={"bottom_box"}>
             <img className={"line_img"} src={"/restaurant/line.svg"} />
             <Pagination
-              count={3}
-              page={1}
+              count={
+                targetSearchObject.page >= 3 ? targetSearchObject.page + 1 : 3
+              }
+              page={targetSearchObject.page}
               renderItem={(item) => (
                 <PaginationItem
                   components={{
@@ -181,6 +231,7 @@ export function AllRestaurants() {
                   color={"secondary"}
                 />
               )}
+              // onChange={handlePaginationChange}
             />
             <img className={"line_img_two"} src={"/restaurant/line_two.svg"} />
           </Stack>
