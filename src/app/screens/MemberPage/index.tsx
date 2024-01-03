@@ -1,8 +1,8 @@
 import { Container } from "@mui/material";
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import { VisitOtherPage } from "./VisitOtherPage";
-import { VisitMyPage } from "./VisitMyPage";
+import { VisitOtherPage } from "./visitOtherPage";
+import { VisitMyPage } from "./visitMyPage";
 import "../../../css/my_page.css";
 
 export function MemberPage() {

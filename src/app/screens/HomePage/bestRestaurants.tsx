@@ -82,7 +82,7 @@ export function BestRestaurants() {
         style={{
           position: "absolute",
           left: "6%",
-          transform: "rotate(90deg)",
+          transform: "rotate(0deg)",
         }}
       />
       <Container sx={{ paddingTop: "153px" }}>
@@ -217,7 +217,7 @@ export function BestRestaurants() {
               style={{ background: "#1976D2", color: "#FFFFFF" }}
               onClick={goRestaurantHandler}
             >
-              See All Top Restaurants
+              Barchasini ko'rish
             </Button>
           </Stack>
         </Stack>

@@ -1,108 +1,90 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Stack,
-} from "@mui/material";
-import { Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
+import { Badge, Box, Button, Container, IconButton, ListItemIcon, Menu, MenuItem, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import { Logout } from "@mui/icons-material";
+import Basket from "./basket";
+
 
 export function NavbarHome(props: any) {
-  // Initializations
-  // const [count, setCount] = useState(1); //componentDidMount
-  // const [value, setValue] = useState(true); // componentWillUnmount
-  // Handlers
-  // useEffect(() => {
-  //   setCount(count + 1);
-  // }, [value]); // component DidUpdate
+    // INITIALIZATION
+   
 
-  return (
-    <div className="format home_navbar">
-      <Container>
-        <Stack
-          flexDirection={"row"}
-          className="navbar_config"
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <img src="/icons/papay.svg" alt="papay-pic" />
-          </Box>
-          <Stack
-            flexDirection={"row"}
-            justifyContent="space-evenly"
-            alignItems={"center"}
-            className="navbar_links"
-          >
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/" activeClassName="underline">
-                Home
-              </NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/restaurant" activeClassName="underline">
-                Restaurants
-              </NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/orders" activeClassName="underline">
-                Orders
-              </NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/community" activeClassName="underline">
-                Community
-              </NavLink>
-            </Box>
-            {props.verifiedMemberData ? (
-              <Box className="hover-line" onClick={props.setPath}>
-                <NavLink to="/member-page" activeClassName="underline">
-                  My Page
-                </NavLink>
-              </Box>
-            ) : null}
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/help" activeClassName="underline">
-                Help
-              </NavLink>
-            </Box>
-            <Box className="hover-line">
-              <IconButton
-                aria-label="cart"
-                id="basic-button"
-                aria-controls={undefined}
-                aria-haspopup="true"
-                aria-expanded={undefined}
-              >
-                <Badge badgeContent={3} color="secondary">
-                  <img src="/icons/shopping_cart.svg" />
-                </Badge>
-              </IconButton>
-            </Box>
-            {!props.verifiedMemberData ? (
-              <Box>
-                <Button
-                  variant="contained"
-                  style={{ color: "#FFFFFF", background: "#1976D2" }}
-                  onClick={props.handleLoginOpen}
+    return( <div className="format home_navbar">
+        <Container>
+            <Stack flexDirection={'row'}
+                className="navbar_config"
+                justifyContent={'space-between'}>
+                <Box>
+                    <img src="/icons/papay.svg"/>
+                </Box>
+                <Stack flexDirection={'row'}
+                    justifyContent={'space-evenly'}
+                    alignItems={'center'}
+                    className="navbar_links"
                 >
-                  Login
-                </Button>
-              </Box>
-            ) : (
-              <img
-                style={{ width: "48px", height: "48px", borderRadius: "24px" }}
-                src={props.verifiedMemberData.mb_image}
-                onClick={props.handleLogoutClick}
-              />
-            )}
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/' activeClassName="underline">
+                            Home
+                        </NavLink>
+                    </Box>
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/restaurant' activeClassName="underline">
+                            Restaurant
+                        </NavLink>
+                    </Box>
+                    {props.verifiedMemberData ? (
+                     <Box className='hover-line' onClick={props.setPath}>
+                     <NavLink to='/orders' activeClassName="underline">
+                         Orders
+                     </NavLink>
+                 </Box>
+                    ) : null};
+                   
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/community' activeClassName="underline">
+                            Community
+                        </NavLink>
+                    </Box>
+                    {props.verifiedMemberData ? (
+                     <Box className='hover-line' onClick={props.setPath}>
+                     <NavLink to='/member-page' activeClassName="underline">
+                         Sahifam
+                     </NavLink>
+                 </Box>
+                    ) : null};
+                    
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/help' activeClassName="underline">
+                            Help
+                        </NavLink>
+                    </Box>
+                    <Basket
+                        cartItems={props.cartItems}
+                        onAdd={props.onAdd}
+                        onRemove={props.onRemove}
+                        onDelete={props.onDelete}
+                        onDeleteAll={props.onDeleteAll}
+                    />
+                    
+                    {!props.verifiedMemberData ? (
+                        <Box>
+                            <Button
+                                variant="contained"
+                                style={{
+                                    color: "#fffff",
+                                    background: "#1976d2"
+                                }}
+                                onClick={props.handleLoginOpen}
+                            >
+                                KIRISH</Button>
+                        </Box>
+                    ) :
+                        <img
+                            style={{ width: '48px', height: "48px", borderRadius: '24px' }}
+                            src={props.verifiedMemberData.mb_image}
+                        onClick={props.handleLogOutClick}/>
+                    };
 
             <Menu
               anchorEl={props.anchorEl}
@@ -113,7 +95,7 @@ export function NavbarHome(props: any) {
                 elevation: 0,
                 sx: {
                   overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32)",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
                   "& .MuiAvatar-root": {
                     width: 32,
@@ -122,7 +104,7 @@ export function NavbarHome(props: any) {
                     mr: 1,
                   },
                   "&:before": {
-                    content: '"',
+                    content: '""',
                     display: "block",
                     position: "absolute",
                     top: 0,
@@ -135,59 +117,54 @@ export function NavbarHome(props: any) {
                   },
                 },
               }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              transformOrigin = {{horizontal: 'right',vertical: 'top' }}
+              anchorOrigin={{horizontal: 'right',vertical: 'bottom'}}
             >
-              <MenuItem onClick={props.handleLogOutRequest}>
+              <MenuItem 
+              onClick={props.handleLogOutRequest}
+              >
                 <ListItemIcon>
-                  <Logout fontSize="small" style={{ color: "blue" }} />
+                  <Logout fontSize="small" style={{color: "blue"}}/>
                 </ListItemIcon>
                 Logout
               </MenuItem>
             </Menu>
-          </Stack>
-        </Stack>
+                    
 
-        <Stack className="head_information" justifyContent={"row"}>
-          <Stack
-            justifyContent={"column"}
-            style={{ marginTop: "86px", marginLeft: "24px" }}
-          >
-            <Box>
-              <img src="/icons/welcome.svg" />
-            </Box>
-            <Box className="define_restaurant">
-              Papays - Revolutionizing Your Dining Experience with Every
-              Delivery
-            </Box>
-            {/* <Box className="timeline_service">
-              Welcome to Papay, the ultimate online food delivery platform where
-              convenience, variety, and exceptional culinary experiences
-              converge. In today's fast-paced world, Papay understands the value
-              of your time and the importance of a delicious meal, which is why
-              we are dedicated to bringing your favorite dishes from the best
-              local restaurants directly to your doorstep.{" "}
-            </Box> */}
-            <Box sx={{ mt: "90px" }}>
-              {!props.verifiedMemberData ? ( // login buganda signup button yoqoladi
-                <Button
-                  variant="contained"
-                  style={{
-                    width: "210px",
-                    height: "60px",
-                    background: "#1976D2",
-                    color: "#FFFFFF",
-                  }}
-                  onClick={props.handleSignupOpen}
-                >
-                  Registration
-                </Button>
-              ) : null}
-            </Box>
-          </Stack>
-          <Box className="big_img"></Box>
-        </Stack>
-      </Container>
+                </Stack>
+            </Stack>
+
+            <Stack className="head_information">
+                <Stack justifyContent={'column'} sx={{ marginTop: "86px", marginLeft: "24px" }}>
+                    <Box>
+                    <img src="/icons/welcomes.svg"/>
+                    </Box>
+                    <Box className="define_restaurat">
+                    The Authentic  Restaurant & Cafe
+                    </Box>
+                    <Box className="timeline_service">
+                        24 soat xizmatingizdamiz.
+                    </Box>
+                    <Box sx={{mt: '90px'}}>
+                        {!props.verifiedMemberData ? (
+                            <Button variant="contained"
+                            style={{
+                                width: '210px',
+                                height: '60px',
+                                background: '#1976d2'
+                            }}
+                            onClick={props.handleSignUpOpen}
+                        >
+                            RO'YHATDAN O'TISH
+                        </Button>
+                        ) : null }
+                    </Box>
+                </Stack>
+                <Stack
+                    flexDirection={'column'} >
+                    <div className="big_img"></div>
+                </Stack>
+            </Stack>
+        </Container> 
     </div>
-  );
-}
+)}

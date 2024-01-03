@@ -4,8 +4,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
 const followers = [
-  { mb_nick: "botir", following: true },
-  { mb_nick: "jonibek", following: false },
+  { mb_nick: "shimomoto", following: true },
+  { mb_nick: "yoganglam", following: false },
   { mb_nick: "larisa", following: true },
 ];
 
@@ -13,7 +13,7 @@ export function MemberFollowers(props: any) {
   return (
     <Stack>
       {followers.map((follower) => {
-        const image_url = "/icons/default_image.png";
+        const image_url = "/community/cute_girl.jpeg";
         return (
           <Box className={"follow_box"}>
             <Avatar src={image_url} sx={{ width: 89, height: 89 }} />
@@ -38,11 +38,12 @@ export function MemberFollowers(props: any) {
                 >
                   FOLLOWING
                 </Button>
-              ) : (
+            ) : (
+                
                 <Button
                   variant="contained"
                   startIcon={
-                    <img src="/icons/user_icon.svg" style={{ width: "40px" }} />
+                    <img src="/icons/user.svg" style={{ width: "40px" }} />
                   }
                   className="follow_btn"
                 >

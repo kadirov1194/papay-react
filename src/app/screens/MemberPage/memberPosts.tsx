@@ -14,18 +14,16 @@ export function MemberPosts(props: any) {
           <Stack className="all_article_box" sx={{ cursor: "pointer" }}>
             <Box
               className={"all_article_img"}
-              sx={{ backgroundImage: `url('/icons/default_image.png')` }}
+              //   sx={{ backgroundImage: `url('/icons/default_img.svg')` }}
             ></Box>
             <Box className={"all_article_container"}>
               <Box alignItems={"center"} display={"flex"}>
                 <img
-                  src="/icons/default_image.png"
+                  src="/icons/default_img.svg"
                   width={"35px"}
                   style={{ borderRadius: "50%", backgroundSize: "cover" }}
                 />
-                <span className="all_article_author_user">
-                  Inakentiy Smaktunovskiy
-                </span>
+                <span className="all_article_author_user">Khan</span>
               </Box>
               <Box
                 display={"flex"}

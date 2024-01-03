@@ -1,10 +1,10 @@
-import { Container } from "@mui/material";
-import React from "react";
+import { Container } from '@mui/material';
+import React from 'react';
+
 
 export function Advertisements() {
-  return (
-    <div className="ads_restaurant_frame">
-      <video
+    return <div className='ads_restaurant_frame'>
+     <video
         className={"ads_video"}
         autoPlay={true}
         loop
@@ -19,5 +19,4 @@ export function Advertisements() {
         />
       </video>
     </div>
-  );
 }

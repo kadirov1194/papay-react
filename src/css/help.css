@@ -1,184 +1,156 @@
-.help_page {
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  background: #0b0e11;
+.help_page{
+    width: 100%;
+    height: auto;
+    display: flex;
+    background: #0b0e11;
 }
 
 .help_page .help_menu {
-  width: 100%;
-  height: 60px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #fff;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    justify-content: center;
+    width:100%
 }
 
 .help_page .css-1gsv261 {
-  width: 75%;
+    width:75%
 }
 
 .help_page .css-heg063-MuiTabs-flexContainer {
-  justify-content: space-between;
+    justify-content:space-between
 }
 
 .help_page .css-19kzrtu {
-  padding-top: 24px;
+    padding-top:24px
 }
 
 .help_page .help_main_content {
-  width: 100%;
-  height: 1000px;
+    height: 1000px;
+    width:100%
 }
 
 .help_page .theRules_box {
-  padding: 24px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #ededed;
-  box-shadow: 0px 20px 30px rgb(25 25 46 / 4%);
-  border-radius: 8px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ededed;
+    border-radius: 8px;
+    box-shadow: 0 20px 30px rgb(25 25 46/4%);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: center;
+    padding: 24px;
+    width:100%
 }
 
 .theRules_box .theRulesFrame {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width:100%
 }
 
 .theRules_box .theRulesFrame p {
-  border-bottom: 1px solid #dddddd;
-  color: #000000;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 2.5;
-  letter-spacing: 0.00938em;
+    border-bottom: 1px solid #ddd;
+    color: #000;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: .00938em;
+    line-height:2.5
 }
 
-.help_page .accordian_menu {
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
+.help_page .accordian_menu, .help_page .admin_letter_box {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width:100%
 }
-
-/*.help_page .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {*/
-/*    border-bottom: 1px solid rgba(51, 51, 51, 0.48);*/
-/*}*/
 
 .help_page .admin_letter_box {
-  padding: 60px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #ededed;
-  box-shadow: 0px 20px 30px rgba(25, 25, 46, 0.04);
-  border-radius: 8px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ededed;
+    border-radius: 8px;
+    box-shadow: 0 20px 30px rgba(25, 25, 46, .04);
+    justify-content: center;
+    padding:60px
 }
 
 .help_page .admin_letter_box .admin_letter_container {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width:100%
 }
 
 .help_page .admin_letter_container .admin_letter_frame {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
+    margin-top:30px
 }
 
 .help_page .admin_letter_frame span {
-  font-family: "ABeeZee";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
-  color: #140342;
+    color: #140342;
+    font-family: ABeeZee;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height:28px
 }
 
 .help_page .admin_letter_frame p {
-  margin-top: 20px;
-  font-family: "Sedan";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+    color: #4f547b;
+    font-family: Sedan;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-top:20px
 }
 
 .help_page .admin_letter_container .admin_letter_frame {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction:column
 }
 
 .help_page .admin_letter_frame .admin_input_box {
-  margin-top: 30px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    margin-top: 30px;
+    width:100%
 }
 
 .help_page .admin_letter_frame .admin_input_box label {
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  color: #140342;
+    color: #140342;
+    font-family: Verdana;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height:19px
 }
 
 .help_page .admin_letter_frame .admin_input_box input {
-  margin-top: 10px;
-  padding: 20px;
-  width: 100%;
-  height: 60px;
+    height:60px
+}
 
-  display: flex;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+.help_page .admin_letter_frame .admin_input_box input, .help_page .admin_letter_frame .admin_input_box textarea {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #4f547b;
+    display: flex;
+    font-family: Verdana;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-top: 10px;
+    padding: 20px;
+    width:100%
 }
 
 .help_page .admin_letter_frame .admin_input_box textarea {
-  margin-top: 10px;
-  padding: 20px;
-  width: 100%;
-  height: 150px;
-
-  display: flex;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+    height:150px
 }

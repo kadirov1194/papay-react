@@ -8,10 +8,31 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
+import { Order } from "../../../types/order";
+
+//Redux
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setPausedOrders,
+  setProcessOrders,
+  setFinishedOrders,
+} from "../../screens/OrdersPage/slice";
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispach(setPausedOrders(data)),
+  setProcessOrders: (data: Order) => dispach(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispach(setFinishedOrders(data)),
+});
 
 export function OrdersPage(props: any) {
   /** INITIALIZATIONS **/
   const [value, setValue] = useState("1");
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
+
+  useEffect(() => {}, []);
 
   /** HANDLERS **/
   const handleChange = (event: any, newValue: string) => {
@@ -54,7 +75,7 @@ export function OrdersPage(props: any) {
               alignItems={"center"}
             >
               <div className={"order_user_img"}>
-                <img src={"/others/user.svg"} />
+                <img src={"/others/user.png"} />
                 <div className={"order_user_icon_box"}>
                   <img
                     src={"/icons/user_icon.svg"}
@@ -74,14 +95,14 @@ export function OrdersPage(props: any) {
               <div style={{ display: "flex" }}>
                 <LocationOnIcon />
               </div>
-              <div className={"spec_address_txt"}>"Uchkuduk City"</div>
+              <div className={"spec_address_txt"}>"Seoul"</div>
             </Box>
           </Box>
           <Box className={"order_info_box"} sx={{ mt: "15px" }}>
             <input
               type={"text"}
               name={"card_number"}
-              placeholder={"Card number : 5555 5555 5555 5555"}
+              placeholder={"Card number : 5243 4090 2002 7495"}
               className={"card_input"}
             />
             <div
@@ -94,20 +115,20 @@ export function OrdersPage(props: any) {
               <input
                 type={"text"}
                 name={"card_period"}
-                placeholder={"02 / 27"}
+                placeholder={"07 / 24"}
                 className={"card_half_input"}
               />
               <input
                 type={"text"}
                 name={"card_cvv"}
-                placeholder={"CVV : 669"}
+                placeholder={"CVV : 010"}
                 className={"card_half_input"}
               />
             </div>
             <input
               type={"text"}
               name={"card_creator"}
-              placeholder={"Kadirov Shoxrux"}
+              placeholder={"Shoxrux Kadirov"}
               className={"card_input"}
             />
             <div className={"cards_box"}>

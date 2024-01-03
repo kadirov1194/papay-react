@@ -15,14 +15,16 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TabList from "@mui/lab/TabList";
+import { MemberPosts } from "./memberPosts";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
-import { MemberPosts } from "./memberPosts";
+import TViewer from "../../components/tuiEditor/TViewer";
+import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
 
 export function VisitMyPage(props: any) {
   //INITIALIZIATION
-  const [value, setValue] = useState("5");
+  const [value, setValue] = useState("1");
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
@@ -82,11 +84,13 @@ export function VisitMyPage(props: any) {
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Maqola Yozish</Box>
                   <Box className={"write_content"}></Box>
+                  <TuiEditor />
                 </TabPanel>
 
                 <TabPanel value={"5"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
                   <Box className={"menu_content"}></Box>
+                  <TViewer text={`<h3>Hello</h3>`} />
                 </TabPanel>
 
                 <TabPanel value={"6"}>
@@ -110,14 +114,14 @@ export function VisitMyPage(props: any) {
                 >
                   <div className="order_user_img">
                     <img
-                      src="/community/girl.jpg"
+                      src="/community/boy.jpg"
                       className="order_user_avatar"
                     />
                     <div className="order_user_icon_box">
-                      <img src="/icons/default_image.png" alt="" />
+                      <img src="/icons/user_icon.svg" alt="" />
                     </div>
                   </div>
-                  <span className="order_user_name">Monica</span>
+                  <span className="order_user_name">Khan</span>
                   <span className="order_user_prof">USER</span>
                 </Box>
                 <Box className={"user_media_box"}>
@@ -127,8 +131,8 @@ export function VisitMyPage(props: any) {
                   <YouTubeIcon />
                 </Box>
                 <Box className={"user_media_box"}>
-                  <p className="follows">Followers: 3</p>
-                  <p className="follows">Followings: 2</p>
+                  <p className="follows">Followers: 5</p>
+                  <p className="follows">Followings: 3</p>
                 </Box>
                 <p className="user_desc">"Qo'shimcha ma'lumot kiritilmagan"</p>
                 <Box
@@ -165,7 +169,10 @@ export function VisitMyPage(props: any) {
                     style={{ flexDirection: "column" }}
                     value={"1"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("1")}
+                      >
                         <img src="/icons/pencil.svg" alt="" />
                         <span>Maqolalarim</span>
                       </div>
@@ -175,7 +182,10 @@ export function VisitMyPage(props: any) {
                     style={{ flexDirection: "column" }}
                     value={"2"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("2")}
+                      >
                         <img src="/icons/group.svg" alt="" />
                         <span>Follower</span>
                       </div>
@@ -185,8 +195,11 @@ export function VisitMyPage(props: any) {
                     style={{ flexDirection: "column" }}
                     value={"3"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
-                        <img src="/icons/user_icon.svg" alt="" />
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("3")}
+                      >
+                        <img src="/icons/user.svg" alt="" />
                         <span>Following</span>
                       </div>
                     )}

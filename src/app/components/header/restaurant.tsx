@@ -1,97 +1,98 @@
-import React from "react";
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Stack,
-} from "@mui/material";
-import { NavLink } from "react-router-dom";
 import { Logout } from "@mui/icons-material";
+import {
+    Badge,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Stack,
+} from "@mui/material";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import Basket from "./basket";
+
+
 
 export function NavbarRestaurant(props: any) {
-  return (
-    <div className="format_restaurant home_navbar">
-      <Container>
-        <Stack
-          flexDirection={"row"}
-          className="navbar_config"
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <img src="/icons/papay.svg" alt="papay-pic" />
-          </Box>
-          <Stack
-            flexDirection={"row"}
-            justifyContent="space-evenly"
-            alignItems={"center"}
-            className="navbar_links"
-          >
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/">Home</NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/restaurant" activeClassName="underline">
-                Restaurants
-              </NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/orders" activeClassName="underline">
-                Orders
-              </NavLink>
-            </Box>
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/community" activeClassName="underline">
-                Community
-              </NavLink>
-            </Box>
-            {props.verifiedMemberData ? (
+    return (<div className="format_restaurant home_navbar">
+        <Container>
+            <Stack flexDirection={'row'}
+                className="navbar_config"
+                justifyContent={'space-between'}>
+                <Box>
+                    <img src="/icons/papay.svg" />
+                </Box>
+                <Stack flexDirection={'row'}
+                    justifyContent={'space-evenly'}
+                    alignItems={'center'}
+                    className="navbar_links"
+                >
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/'>
+                            Bosh Sahifa
+                        </NavLink>
+                    </Box>
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/restaurant' activeClassName="underline">
+                            Restaurant
+                        </NavLink>
+                    </Box>
+                    {props.verifiedMemberData ? (
+                     <Box className='hover-line' onClick={props.setPath}>
+                     <NavLink to='/orders' activeClassName="underline">
+                         Orders
+                     </NavLink>
+                 </Box>
+                    ) : null};
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/community' activeClassName="underline">
+                            Community
+                        </NavLink>
+                    </Box>
+
+                    {props.verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/member-page" activeClassName="underline">
-                  My Page
+                  Sahifam
                 </NavLink>
               </Box>
             ) : null}
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/help" activeClassName="underline">
-                Help
-              </NavLink>
+
+                    <Box className='hover-line' onClick={props.setPath}>
+                        <NavLink to='/help' activeClassName="underline">
+                            Help
+                        </NavLink>
             </Box>
-            <Box className="hover-line">
-              <IconButton
-                aria-label="cart"
-                id="basic-button"
-                aria-controls={undefined}
-                aria-haspopup="true"
-                aria-expanded={undefined}
-              >
-                <Badge badgeContent={3} color="secondary">
-                  <img src="/icons/shopping_cart.svg" />
-                </Badge>
-              </IconButton>
-            </Box>
-            {!props.verifiedMemberData ? (
+            
+            <Basket
+              cartItems={props.cartItems}
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              onDelete={props.onDelete}
+              onDeleteAll={props.onDeleteAll }/>
+            
+                    {!props.verifiedMemberData ? (
               <Box>
                 <Button
                   variant="contained"
-                  style={{ color: "#FFFFFF", background: "#1976D2" }}
+                  style={{ color: "#ffffff", background: "#1976d2" }}
                   onClick={props.handleLoginOpen}
                 >
-                  Login
+                  KIRISH
                 </Button>
               </Box>
             ) : (
               <img
                 style={{ width: "48px", height: "48px", borderRadius: "24px" }}
                 src={props.verifiedMemberData.mb_image}
-                onClick={props.handleLogoutClick}
+                onClick={props.handleLogOutClick}
               />
-            )}
-            <Menu
+                    )};
+                    
+                    <Menu
               anchorEl={props.anchorEl}
               open={props.open}
               onClose={props.handleCloseLogOut}
@@ -100,7 +101,7 @@ export function NavbarRestaurant(props: any) {
                 elevation: 0,
                 sx: {
                   overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32)",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
                   "& .MuiAvatar-root": {
                     width: 32,
@@ -109,7 +110,7 @@ export function NavbarRestaurant(props: any) {
                     mr: 1,
                   },
                   "&:before": {
-                    content: '"',
+                    content: '""',
                     display: "block",
                     position: "absolute",
                     top: 0,
@@ -125,17 +126,20 @@ export function NavbarRestaurant(props: any) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={props.handleLogOutRequest}>
+              <MenuItem
+              onClick={props.handleLogOutRequest}
+              >
                 <ListItemIcon>
                   <Logout fontSize="small" style={{ color: "blue" }} />
                 </ListItemIcon>
                 Logout
               </MenuItem>
             </Menu>
-          </Stack>
-        </Stack>
-      </Container>
-      ;
+
+                </Stack>
+            </Stack>
+        </Container>
     </div>
-  );
+    );
 }
+

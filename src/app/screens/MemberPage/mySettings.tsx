@@ -8,11 +8,11 @@ export function MySettings(props: any) {
     <Stack className="my_settings_page">
       <Box className={"member_media_frame"}>
         <img
-          src="/icons/default_image.png"
+          src="/icons/default_img.svg"
           className="mb_image"
           style={{ borderRadius: "50%" }}
           width={"100px"}
-          height={"100px"}
+          height={"100px"} 
         />
         <div className="media_change_box">
           <span>Rasm Yuklash</span>
@@ -32,7 +32,7 @@ export function MySettings(props: any) {
             type="text"
             className="spec_input mb_nick"
             name="mb_nick"
-            placeholder="nick"
+            placeholder="User Name"
           />
         </div>
       </Box>
@@ -43,7 +43,7 @@ export function MySettings(props: any) {
             type="text"
             className="spec_input mb_phone"
             name="mb_phone"
-            placeholder="9989999999"
+            placeholder="99890 34353534"
           />
         </div>
         <div className="short_input">
@@ -60,13 +60,14 @@ export function MySettings(props: any) {
         <div className="long_input">
           <label className="spec_label">Ma'lumot</label>
           <textarea
+            
             className="spec_textarea mb_description"
             name="mb_description"
             placeholder="mavjud emas"
           />
         </div>
       </Box>
-      <Box display={"flex"} justifyContent={"flex-end"} sx={{ mt: "25px" }}>
+      <Box display={"flex"} justifyContent={"flex-end"} sx={{mt: "25px"}}>
         <Button variant="contained">Saqlash</Button>
       </Box>
     </Stack>

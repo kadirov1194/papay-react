@@ -12,7 +12,7 @@ if (cookies.get("access_token")) {
   localStorage.removeItem("member_data");
 }
 
-console.log("== verify ==");
+console.log("=== verify ===");
 console.log(member_data);
 
 export const verifyMemberData = member_data ? member_data : null;

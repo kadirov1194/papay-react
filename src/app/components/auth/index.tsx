@@ -6,10 +6,10 @@ import Fade from "@material-ui/core/Fade";
 import { Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
-import assert from "assert";
-import { Definer } from "../../../lib/Definer";
-import MemberApiService from "../../apiServices/memberApiService";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { Definer } from "../../../lib/Definer";
+import assert from "assert";
+import MemberApiService from "../../apiServices/memberApiService";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -35,23 +35,24 @@ const ModalImg = styled.img`
 `;
 
 export default function AuthenticationModal(props: any) {
-  //** Initializations */
-  const classes = useStyles();
-  let mb_nick: string = "",
-    mb_phone: number = 0,
-    mb_password: string = "";
+    // INITIALIZATION
+    const classes = useStyles();
+    let mb_nick: string = "",
+        mb_phone: number = 0,
+     mb_password: string = "";
+    // HANDLERS
+    const handleUsername = (e: any) => { 
+        mb_nick = e.target.value;
+    };
+    const handlePhone = (e: any) => { 
+        mb_phone = e.target.value;
+    };
+    const handlePassword = (e: any) => { 
+        mb_password = e.target.value;
+    };
 
-  /** Handlers */
-  const handleUsername = (e: any) => {
-    mb_nick = e.target.value;
-  };
-  const handlePhone = (e: any) => {
-    mb_phone = e.target.value;
-  };
-  const handlePassword = (e: any) => {
-    mb_password = e.target.value;
-  };
-
+  
+  
   const handleSignupRequest = async () => {
     try {
       const is_fulfilled = mb_nick != "" && mb_password != "" && mb_phone != 0;
@@ -60,42 +61,48 @@ export default function AuthenticationModal(props: any) {
       const signup_data = {
         mb_nick: mb_nick,
         mb_phone: mb_phone,
-        mb_password: mb_password,
+        mb_password: mb_password
       };
-
+      
       const memberApiService = new MemberApiService();
       await memberApiService.signupRequest(signup_data);
 
-      props.handleSignupClose();
+      props.handleSignUpClose();
       window.location.reload();
-    } catch (err) {
-      console.log(err);
-      props.handleSignupClose();
-      sweetErrorHandling(err).then();
-    }
-  };
 
-  const handleLoginRequest = async () => {
-    try {
-      const is_fulfilled = mb_nick != "" && mb_password != "";
-      assert.ok(is_fulfilled, Definer.input_err1);
-
-      const login_data = {
-        mb_nick: mb_nick,
-        mb_password: mb_password,
-      };
-
-      const memberApiService = new MemberApiService();
-      await memberApiService.loginRequest(login_data);
-
-      props.handleLoginClose();
-      window.location.reload();
     } catch (err) {
       console.log(err);
       props.handleLoginClose();
       sweetErrorHandling(err).then();
     }
-  };
+  }
+
+
+
+    const handleLoginRequest = async () => {
+        try {
+            const is_fulfilled = mb_nick != "" && mb_password != "";
+            assert.ok(is_fulfilled, Definer.input_err1);
+
+            const login_data = {
+                mb_nick: mb_nick,
+                mb_password: mb_password 
+            };
+
+          const memberApiService = new MemberApiService();
+          await memberApiService.loginRequest(login_data);
+
+          props.handleLoginClose();
+          window.location.reload();
+        } catch (err) {
+            console.log(err);
+            props.handleLoginClose();
+            sweetErrorHandling(err).then();
+        }
+    }
+
+
+
 
   return (
     <div>
@@ -105,7 +112,7 @@ export default function AuthenticationModal(props: any) {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={props.signUpOpen}
-        onClose={props.handleSignupClose}
+        onClose={props.handleSignUpClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
