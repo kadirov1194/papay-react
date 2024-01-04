@@ -8,24 +8,24 @@ import React from "react";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../types/others";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
-import assert  from "assert";
+import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import OrderApiService from "../../apiServices/orderApiService";
 import { useHistory } from "react-router-dom";
 
 export default function Basket(props: any) {
-    /** INITIALIZATIONS **/
-    const history = useHistory();
+  /** INITIALIZATIONS **/
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-    const { cartItems, onAdd, onRemove, onDelete, onDeleteAll} = props;
-    const itemsPrice = cartItems?.reduce(
-        (a: any, c: CartItem) => a + c.price * c.quantity,
-        0
-    );
-    const shippingPrice = itemsPrice > 100 ? 0 : 2
-    const totalPrice = itemsPrice + shippingPrice
+  const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
+  const itemsPrice = cartItems?.reduce(
+    (a: any, c: CartItem) => a + c.price * c.quantity,
+    0
+  );
+  const shippingPrice = itemsPrice > 100 ? 0 : 2;
+  const totalPrice = itemsPrice + shippingPrice;
 
   /** HANDLERS **/
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,21 +35,21 @@ export default function Basket(props: any) {
     setAnchorEl(null);
   };
 
-    const processOrderHandler = async () => {
-        try {
-            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
-            const order = new OrderApiService();
-            await order.createOrder(cartItems);
+  const processOrderHandler = async () => {
+    try {
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      const order = new OrderApiService();
+      await order.createOrder(cartItems);
 
-            onDeleteAll();
-            handleClose();
+      onDeleteAll();
+      handleClose();
+      props.setOrderRebuild(new Date());
 
-            history.push("/orders");
-
-        } catch (err: any) {
-            console.log(err);
-            sweetErrorHandling(err).then()
-      }
+      history.push("/orders");
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
   };
 
   return (
@@ -63,7 +63,7 @@ export default function Basket(props: any) {
         onClick={handleClick}
       >
         <Badge badgeContent={cartItems.length} color="secondary">
-        <img src="/icons/shopping-cart.svg" />
+          <img src="/icons/shopping-cart.svg" />
         </Badge>
       </IconButton>
       <Menu
@@ -119,20 +119,19 @@ export default function Basket(props: any) {
                       />
                     </div>
                     <img src={image_path} className={"product_img"} />
-                        <span className={"product_name"}>{ item.name}</span>
-                        <p className={"product_price"}>{item.price} x { item.quantity}</p>
+                    <span className={"product_name"}>{item.name}</span>
+                    <p className={"product_price"}>
+                      {item.price} x {item.quantity}
+                    </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">
                         <button
-                            onClick={() => onRemove(item)}
+                          onClick={() => onRemove(item)}
                           className="remove"
                         >
                           -
                         </button>{" "}
-                        <button
-                           onClick={() => onAdd(item)}
-                          className="add"
-                        >
+                        <button onClick={() => onAdd(item)} className="add">
                           +
                         </button>
                       </div>
@@ -144,7 +143,9 @@ export default function Basket(props: any) {
           </Box>
           {cartItems?.length > 0 ? (
             <Box className={"to_order_box"}>
-              <span className={"price_text"}>Jami: ${totalPrice} ({itemsPrice} + {shippingPrice})</span>
+              <span className={"price_text"}>
+                Jami: ${totalPrice} ({itemsPrice} + {shippingPrice})
+              </span>
               <Button
                 onClick={processOrderHandler}
                 startIcon={<ShoppingCartIcon />}

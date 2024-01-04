@@ -1,91 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Box, Button, Container, IconButton, ListItemIcon, Menu, MenuItem, Stack } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Stack,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
 
-
 export function NavbarHome(props: any) {
-    // INITIALIZATION
-   
+  // INITIALIZATION
 
-    return( <div className="format home_navbar">
-        <Container>
-            <Stack flexDirection={'row'}
-                className="navbar_config"
-                justifyContent={'space-between'}>
-                <Box>
-                    <img src="/icons/papay.svg"/>
-                </Box>
-                <Stack flexDirection={'row'}
-                    justifyContent={'space-evenly'}
-                    alignItems={'center'}
-                    className="navbar_links"
+  return (
+    <div className="format home_navbar">
+      <Container>
+        <Stack
+          flexDirection={"row"}
+          className="navbar_config"
+          justifyContent={"space-between"}
+        >
+          <Box>
+            <img src="/icons/papay.svg" />
+          </Box>
+          <Stack
+            flexDirection={"row"}
+            justifyContent={"space-evenly"}
+            alignItems={"center"}
+            className="navbar_links"
+          >
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/" activeClassName="underline">
+                Home
+              </NavLink>
+            </Box>
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/restaurant" activeClassName="underline">
+                Restaurant
+              </NavLink>
+            </Box>
+            {props.verifiedMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/orders" activeClassName="underline">
+                  Orders
+                </NavLink>
+              </Box>
+            ) : null}
+            ;
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/community" activeClassName="underline">
+                Community
+              </NavLink>
+            </Box>
+            {props.verifiedMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/member-page" activeClassName="underline">
+                  Sahifam
+                </NavLink>
+              </Box>
+            ) : null}
+            ;
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/help" activeClassName="underline">
+                Help
+              </NavLink>
+            </Box>
+            <Basket
+              cartItems={props.cartItems}
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              onDelete={props.onDelete}
+              onDeleteAll={props.onDeleteAll}
+              setOrderRebuild={props.setOrderRebuild}
+            />
+            {!props.verifiedMemberData ? (
+              <Box>
+                <Button
+                  variant="contained"
+                  style={{
+                    color: "#fffff",
+                    background: "#1976d2",
+                  }}
+                  onClick={props.handleLoginOpen}
                 >
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/' activeClassName="underline">
-                            Home
-                        </NavLink>
-                    </Box>
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/restaurant' activeClassName="underline">
-                            Restaurant
-                        </NavLink>
-                    </Box>
-                    {props.verifiedMemberData ? (
-                     <Box className='hover-line' onClick={props.setPath}>
-                     <NavLink to='/orders' activeClassName="underline">
-                         Orders
-                     </NavLink>
-                 </Box>
-                    ) : null};
-                   
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/community' activeClassName="underline">
-                            Community
-                        </NavLink>
-                    </Box>
-                    {props.verifiedMemberData ? (
-                     <Box className='hover-line' onClick={props.setPath}>
-                     <NavLink to='/member-page' activeClassName="underline">
-                         Sahifam
-                     </NavLink>
-                 </Box>
-                    ) : null};
-                    
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/help' activeClassName="underline">
-                            Help
-                        </NavLink>
-                    </Box>
-                    <Basket
-                        cartItems={props.cartItems}
-                        onAdd={props.onAdd}
-                        onRemove={props.onRemove}
-                        onDelete={props.onDelete}
-                        onDeleteAll={props.onDeleteAll}
-                    />
-                    
-                    {!props.verifiedMemberData ? (
-                        <Box>
-                            <Button
-                                variant="contained"
-                                style={{
-                                    color: "#fffff",
-                                    background: "#1976d2"
-                                }}
-                                onClick={props.handleLoginOpen}
-                            >
-                                KIRISH</Button>
-                        </Box>
-                    ) :
-                        <img
-                            style={{ width: '48px', height: "48px", borderRadius: '24px' }}
-                            src={props.verifiedMemberData.mb_image}
-                        onClick={props.handleLogOutClick}/>
-                    };
-
+                  KIRISH
+                </Button>
+              </Box>
+            ) : (
+              <img
+                style={{ width: "48px", height: "48px", borderRadius: "24px" }}
+                src={props.verifiedMemberData.mb_image}
+                onClick={props.handleLogOutClick}
+              />
+            )}
+            ;
             <Menu
               anchorEl={props.anchorEl}
               open={props.open}
@@ -117,54 +131,52 @@ export function NavbarHome(props: any) {
                   },
                 },
               }}
-              transformOrigin = {{horizontal: 'right',vertical: 'top' }}
-              anchorOrigin={{horizontal: 'right',vertical: 'bottom'}}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem 
-              onClick={props.handleLogOutRequest}
-              >
+              <MenuItem onClick={props.handleLogOutRequest}>
                 <ListItemIcon>
-                  <Logout fontSize="small" style={{color: "blue"}}/>
+                  <Logout fontSize="small" style={{ color: "blue" }} />
                 </ListItemIcon>
                 Logout
               </MenuItem>
             </Menu>
-                    
+          </Stack>
+        </Stack>
 
-                </Stack>
-            </Stack>
-
-            <Stack className="head_information">
-                <Stack justifyContent={'column'} sx={{ marginTop: "86px", marginLeft: "24px" }}>
-                    <Box>
-                    <img src="/icons/welcomes.svg"/>
-                    </Box>
-                    <Box className="define_restaurat">
-                    The Authentic  Restaurant & Cafe
-                    </Box>
-                    <Box className="timeline_service">
-                        24 soat xizmatingizdamiz.
-                    </Box>
-                    <Box sx={{mt: '90px'}}>
-                        {!props.verifiedMemberData ? (
-                            <Button variant="contained"
-                            style={{
-                                width: '210px',
-                                height: '60px',
-                                background: '#1976d2'
-                            }}
-                            onClick={props.handleSignUpOpen}
-                        >
-                            RO'YHATDAN O'TISH
-                        </Button>
-                        ) : null }
-                    </Box>
-                </Stack>
-                <Stack
-                    flexDirection={'column'} >
-                    <div className="big_img"></div>
-                </Stack>
-            </Stack>
-        </Container> 
+        <Stack className="head_information">
+          <Stack
+            justifyContent={"column"}
+            sx={{ marginTop: "86px", marginLeft: "24px" }}
+          >
+            <Box>
+              <img src="/icons/welcomes.svg" />
+            </Box>
+            <Box className="define_restaurat">
+              The Authentic Restaurant & Cafe
+            </Box>
+            <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
+            <Box sx={{ mt: "90px" }}>
+              {!props.verifiedMemberData ? (
+                <Button
+                  variant="contained"
+                  style={{
+                    width: "210px",
+                    height: "60px",
+                    background: "#1976d2",
+                  }}
+                  onClick={props.handleSignUpOpen}
+                >
+                  RO'YHATDAN O'TISH
+                </Button>
+              ) : null}
+            </Box>
+          </Stack>
+          <Stack flexDirection={"column"}>
+            <div className="big_img"></div>
+          </Stack>
+        </Stack>
+      </Container>
     </div>
-)}
+  );
+}

@@ -1,46 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
-import '../css/App.css';
-import '../css/navbar.css';
-import '../css/footer.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { RestaurantPage } from './screens/RestaurantPage';
-import { CommunityPage } from './screens/CommunityPage';
-import { OrdersPage } from './screens/OrdersPage';
-import { MemberPage } from './screens/MemberPage';
-import { HelpPage } from './screens/HelpPage';
-import { LoginPage } from './screens/LoginPage';
-import { HomePage } from './screens/HomePage';
-import { NavbarHome } from './components/header';
-import { NavbarRestaurant } from './components/header/restaurant';
-import { NavbarOthers } from './components/header/others';
-import { Footer } from './components/footer';
-import AuthenticationModal from './components/auth';
-import { Member } from '../types/user';
-import { serverApi } from '../lib/config';
-import MemberApiService from './apiServices/memberApiService';
-import { sweetFailureProvider, sweetTopSmallSuccessAlert } from '../lib/sweetAlert';
-import { Definer } from '../lib/Definer';
-import assert from "assert"
-import { CartItem } from '../types/others';
-import { Product } from '../types/product';
+import React, { useEffect, useState } from "react";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import "../css/App.css";
+import "../css/navbar.css";
+import "../css/footer.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { RestaurantPage } from "./screens/RestaurantPage";
+import { CommunityPage } from "./screens/CommunityPage";
+import { OrdersPage } from "./screens/OrdersPage";
+import { MemberPage } from "./screens/MemberPage";
+import { HelpPage } from "./screens/HelpPage";
+import { LoginPage } from "./screens/LoginPage";
+import { HomePage } from "./screens/HomePage";
+import { NavbarHome } from "./components/header";
+import { NavbarRestaurant } from "./components/header/restaurant";
+import { NavbarOthers } from "./components/header/others";
+import { Footer } from "./components/footer";
+import AuthenticationModal from "./components/auth";
+import { Member } from "../types/user";
+import { serverApi } from "../lib/config";
+import MemberApiService from "./apiServices/memberApiService";
+import {
+  sweetFailureProvider,
+  sweetTopSmallSuccessAlert,
+} from "../lib/sweetAlert";
+import { Definer } from "../lib/Definer";
+import assert from "assert";
+import { CartItem } from "../types/others";
+import { Product } from "../types/product";
 
-function App() {  
+function App() {
   // INITIALIZATION
-  const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(null)
-  const [path, setPath] = useState()
+  const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(
+    null
+  );
+  const [path, setPath] = useState();
   const main_path = window.location.pathname;
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
-
+  const [orderRebuild, setOrderRebuild] = useState<Date>(new Date());
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const cartJson: any  = localStorage.getItem("cart_data");
+  const cartJson: any = localStorage.getItem("cart_data");
   const current_cart: CartItem[] = JSON.parse(cartJson) ?? [];
   const [cartItems, setCartItems] = useState<CartItem[]>(current_cart);
-  
-  
+
   useEffect(() => {
     console.log("====useEffect====: App:");
     const memberDataJson: any = localStorage.getItem("member_data")
@@ -60,7 +64,7 @@ function App() {
   const handleSignUpClose = () => setSignUpOpen(false);
   const handleLoginOpen = () => setLoginOpen(true);
   const handleLoginClose = () => setLoginOpen(false);
-  
+
   const handleLogOutClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,17 +73,19 @@ function App() {
   };
   const handleLogOutRequest = async () => {
     try {
-      const memberApiService = new MemberApiService()
-      await memberApiService.logOutRequest()
-      await sweetTopSmallSuccessAlert("success", 700, true)
+      const memberApiService = new MemberApiService();
+      await memberApiService.logOutRequest();
+      await sweetTopSmallSuccessAlert("success", 700, true);
     } catch (err: any) {
-      console.log(err)
-      sweetFailureProvider(Definer.general_err1)
+      console.log(err);
+      sweetFailureProvider(Definer.general_err1);
     }
   };
 
   const onAdd = (product: Product) => {
-    const exist: any = cartItems.find((item: CartItem) => item._id === product._id);
+    const exist: any = cartItems.find(
+      (item: CartItem) => item._id === product._id
+    );
     if (exist) {
       const cart_update = cartItems.map((item: CartItem) =>
         item._id === product._id
@@ -87,7 +93,7 @@ function App() {
           : item
       );
       setCartItems(cart_update);
-      localStorage.setItem("cart_data", JSON.stringify(cart_update))
+      localStorage.setItem("cart_data", JSON.stringify(cart_update));
     } else {
       const new_item: CartItem = {
         _id: product._id,
@@ -98,15 +104,19 @@ function App() {
       };
       const cart_updated = [...cartItems, { ...new_item }];
       setCartItems(cart_updated);
-      localStorage.setItem("cart_data", JSON.stringify(cart_updated))
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     }
-  }
+  };
   const onRemove = (item: CartItem) => {
-    const item_data: any = cartItems.find((ele: CartItem) => ele._id === item._id);
+    const item_data: any = cartItems.find(
+      (ele: CartItem) => ele._id === item._id
+    );
     if (item_data.quantity === 1) {
-      const cart_updated = cartItems.filter((ele: CartItem) => ele._id !== item._id)
+      const cart_updated = cartItems.filter(
+        (ele: CartItem) => ele._id !== item._id
+      );
       setCartItems(cart_updated);
-      localStorage.setItem("cart_data", JSON.stringify(cart_updated))
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     } else {
       const cart_updated = cartItems.map((ele: CartItem) =>
         ele._id === item._id
@@ -114,20 +124,20 @@ function App() {
           : ele
       );
       setCartItems(cart_updated);
-      localStorage.setItem("cart_data", JSON.stringify(cart_updated))
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     }
-  }
+  };
   const onDelete = (item: CartItem) => {
     const cart_updated = cartItems.filter(
       (ele: CartItem) => ele._id !== item._id
     );
     setCartItems(cart_updated);
-    localStorage.setItem("cart_data", JSON.stringify(cart_updated))
-  }
+    localStorage.setItem("cart_data", JSON.stringify(cart_updated));
+  };
   const onDeleteAll = () => {
     setCartItems([]);
     localStorage.removeItem("cart_data");
-  }
+  };
   return (
     <Router>
       {main_path == "/" ? (
@@ -142,11 +152,11 @@ function App() {
           handleLogOutRequest={handleLogOutRequest}
           verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
-          onAdd={onAdd}  
+          onAdd={onAdd}
           onRemove={onRemove}
           onDelete={onDelete}
           onDeleteAll={onDeleteAll}
-
+          setOrderRebuild={setOrderRebuild}
         />
       ) : main_path.includes("/restaurant") ? (
         <NavbarRestaurant
@@ -160,12 +170,11 @@ function App() {
           handleLogOutRequest={handleLogOutRequest}
           verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
-          onAdd={onAdd}  
+          onAdd={onAdd}
           onRemove={onRemove}
           onDelete={onDelete}
           onDeleteAll={onDeleteAll}
-            
-            
+          setOrderRebuild={setOrderRebuild}
         />
       ) : (
         <NavbarOthers
@@ -179,10 +188,11 @@ function App() {
           handleLogOutRequest={handleLogOutRequest}
           verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
-          onAdd={onAdd}  
+          onAdd={onAdd}
           onRemove={onRemove}
           onDelete={onDelete}
           onDeleteAll={onDeleteAll}
+          setOrderRebuild={setOrderRebuild}
         />
       )}
 
@@ -194,7 +204,11 @@ function App() {
           <CommunityPage />
         </Route>
         <Route path="/orders">
-          <OrdersPage />
+          <OrdersPage
+            orderRebuild={orderRebuild}
+            setOrderRebuild={setOrderRebuild}
+            verifiedMemberData={verifiedMemberData}
+          />
         </Route>
         <Route path="/member-page">
           <MemberPage />
@@ -222,9 +236,5 @@ function App() {
     </Router>
   );
 }
-  
+
 export default App;
-
-
-
-

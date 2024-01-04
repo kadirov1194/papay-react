@@ -18,6 +18,7 @@ import {
   setProcessOrders,
   setFinishedOrders,
 } from "../../screens/OrdersPage/slice";
+import OrderApiService from "../../apiServices/orderApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -32,7 +33,21 @@ export function OrdersPage(props: any) {
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const orderService = new OrderApiService();
+    orderService
+      .getMyOrders("paused")
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("process")
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("finished")
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [props.orderRebuild]);
 
   /** HANDLERS **/
   const handleChange = (event: any, newValue: string) => {
@@ -42,6 +57,7 @@ export function OrdersPage(props: any) {
   return (
     <div className={"order_page"}>
       <Container
+        maxWidth="lg"
         style={{ display: "flex", flexDirection: "row" }}
         sx={{ mt: "50px", mb: "50px" }}
       >
@@ -61,9 +77,9 @@ export function OrdersPage(props: any) {
               </Box>
             </Box>
             <Stack className={"order_main_content"}>
-              <PausedOrders />
-              <ProcessOrders />
-              <FinishedOrders />
+              <PausedOrders setOrderRebuild={props.setOrderRebuild} />
+              <ProcessOrders setOrderRebuild={props.setOrderRebuild} />
+              <FinishedOrders setOrderRebuild={props.setOrderRebuild} />
             </Stack>
           </TabContext>
         </Stack>

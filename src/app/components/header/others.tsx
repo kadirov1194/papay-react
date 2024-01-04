@@ -1,58 +1,58 @@
 import { Logout } from "@mui/icons-material";
 import {
-    Badge,
-    Box,
-    Button,
-    Container,
-    IconButton,
-    ListItemIcon,
-    Menu,
-    MenuItem,
-    Stack,
+  Badge,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Stack,
 } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Basket from "./basket";
 
-
-
 export function NavbarOthers(props: any) {
-    return (<div className="format_others home_navbar">
-        <Container>
-            <Stack flexDirection={'row'}
-                className="navbar_config"
-                justifyContent={'space-between'}>
-                <Box>
-                    <img src="/icons/papay.svg" />
-                </Box>
-                <Stack flexDirection={'row'}
-                    justifyContent={'space-evenly'}
-                    alignItems={'center'}
-                    className="navbar_links"
-                >
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/'>
-                            Bosh Sahifa
-                        </NavLink>
-                    </Box>
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/restaurant' activeClassName="underline">
-                            Restaurant
-                        </NavLink>
-                    </Box>
-                    {props.verifiedMemberData ? (
-                     <Box className='hover-line' onClick={props.setPath}>
-                     <NavLink to='/orders' activeClassName="underline">
-                         Orders
-                     </NavLink>
-                 </Box>
-                    ) : null};
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/community' activeClassName="underline">
-                            Community
-                        </NavLink>
+  return (
+    <div className="format_others home_navbar">
+      <Container>
+        <Stack
+          flexDirection={"row"}
+          className="navbar_config"
+          justifyContent={"space-between"}
+        >
+          <Box>
+            <img src="/icons/papay.svg" />
+          </Box>
+          <Stack
+            flexDirection={"row"}
+            justifyContent={"space-evenly"}
+            alignItems={"center"}
+            className="navbar_links"
+          >
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/">Bosh Sahifa</NavLink>
             </Box>
-            
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/restaurant" activeClassName="underline">
+                Restaurant
+              </NavLink>
+            </Box>
+            {props.verifiedMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/orders" activeClassName="underline">
+                  Orders
+                </NavLink>
+              </Box>
+            ) : null}
+            ;
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/community" activeClassName="underline">
+                Community
+              </NavLink>
+            </Box>
             {props.verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/member-page" activeClassName="underline">
@@ -60,20 +60,20 @@ export function NavbarOthers(props: any) {
                 </NavLink>
               </Box>
             ) : null}
-            
-                    <Box className='hover-line' onClick={props.setPath}>
-                        <NavLink to='/help' activeClassName="underline">
-                            Help
-                        </NavLink>
-                    </Box>
-                    <Basket
-                        cartItems={props.cartItems}
-                        onAdd={props.onAdd}
-                        onRemove={props.onRemove}
-                        onDelete={props.onDelete}
-                        onDeleteAll={props.onDeleteAll }/>
-            
-                    {!props.verifiedMemberData ? (
+            <Box className="hover-line" onClick={props.setPath}>
+              <NavLink to="/help" activeClassName="underline">
+                Help
+              </NavLink>
+            </Box>
+            <Basket
+              cartItems={props.cartItems}
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              onDelete={props.onDelete}
+              onDeleteAll={props.onDeleteAll}
+              setOrderRebuild={props.setOrderRebuild}
+            />
+            {!props.verifiedMemberData ? (
               <Box>
                 <Button
                   variant="contained"
@@ -89,9 +89,9 @@ export function NavbarOthers(props: any) {
                 src={props.verifiedMemberData.mb_image}
                 onClick={props.handleLogOutClick}
               />
-                    )};
-                    
-                    <Menu
+            )}
+            ;
+            <Menu
               anchorEl={props.anchorEl}
               open={props.open}
               onClose={props.handleCloseLogOut}
@@ -125,20 +125,16 @@ export function NavbarOthers(props: any) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem
-              onClick={props.handleLogOutRequest}
-              >
+              <MenuItem onClick={props.handleLogOutRequest}>
                 <ListItemIcon>
                   <Logout fontSize="small" style={{ color: "blue" }} />
                 </ListItemIcon>
                 Logout
               </MenuItem>
             </Menu>
-
-                </Stack>
-            </Stack>
-        </Container>
+          </Stack>
+        </Stack>
+      </Container>
     </div>
-    );
+  );
 }
-
