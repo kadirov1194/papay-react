@@ -19,6 +19,7 @@ import {
   setFinishedOrders,
 } from "../../screens/OrdersPage/slice";
 import OrderApiService from "../../apiServices/orderApiService";
+import { Member } from "../../../types/user";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -32,6 +33,7 @@ export function OrdersPage(props: any) {
   const [value, setValue] = useState("1");
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+  const verifiedMemberData: Member | null = props.verifiedMemberData;
 
   useEffect(() => {
     const orderService = new OrderApiService();
@@ -91,7 +93,7 @@ export function OrdersPage(props: any) {
               alignItems={"center"}
             >
               <div className={"order_user_img"}>
-                <img src={"/others/user.png"} />
+                <img src={verifiedMemberData?.mb_image} />
                 <div className={"order_user_icon_box"}>
                   <img
                     src={"/icons/user_icon.svg"}
@@ -99,8 +101,12 @@ export function OrdersPage(props: any) {
                   />
                 </div>
               </div>
-              <span className={"order_user_name"}>Khan</span>
-              <span className={"order_user_prof"}>"Foydalanuvchi"</span>
+              <span className={"order_user_name"}>
+                {verifiedMemberData?.mb_nick}
+              </span>
+              <span className={"order_user_prof"}>
+                "{verifiedMemberData?.mb_type ?? "Foydalanuvchi"}"
+              </span>
             </Box>
             <Box
               style={{ border: "1px solid #A1A1A1" }}
@@ -111,7 +117,9 @@ export function OrdersPage(props: any) {
               <div style={{ display: "flex" }}>
                 <LocationOnIcon />
               </div>
-              <div className={"spec_address_txt"}>"Seoul"</div>
+              <div className={"spec_address_txt"}>
+                {verifiedMemberData?.mb_address ?? "manzil kiritilmagan"}
+              </div>
             </Box>
           </Box>
           <Box className={"order_info_box"} sx={{ mt: "15px" }}>
