@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box, Stack } from "@mui/material";
 import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import { TabList } from "@mui/lab";
+import TabPanel from "@mui/lab/TabPanel";
 import Pagination from "@mui/material/Pagination";
 import "../../../css/community.css";
 import { TargetArticles } from "./targetAticles";
 import { CommunityChats } from "./communityChats";
-import { TabContext } from "@mui/lab";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowBackForward from "@mui/icons-material/ArrowForward";
@@ -45,6 +45,7 @@ export function CommunityPage(props: any) {
   const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticlesObj>(
     { bo_id: "all", page: 1, limit: 5 }
   );
+  const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
 
   useEffect(() => {
     const communityService = new CommunityApiService();
@@ -52,7 +53,7 @@ export function CommunityPage(props: any) {
       .getTargetArticles(searchArticlesObj)
       .then((data) => setTargetBoArticles(data))
       .catch((err) => console.log(err));
-  }, [searchArticlesObj]);
+  }, [searchArticlesObj, articlesRebuild]);
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
@@ -94,7 +95,6 @@ export function CommunityPage(props: any) {
                 <Box className={"article_tabs"}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <TabList
-                      value={Value}
                       onChange={handleChange}
                       aria-label="lab API tabs example"
                       style={{ borderColor: "blue" }}
@@ -111,26 +111,32 @@ export function CommunityPage(props: any) {
                   <TabPanel value={"1"}>
                     <TargetArticles
                       targetBoArticles={targetBoArticles}
-                      test={"Articles"}
+                      setArticlesRebuild={setArticlesRebuild}
                     />
                   </TabPanel>
                   <TabPanel value={"2"}>
                     <TargetArticles
                       targetBoArticles={targetBoArticles}
-                      test={"Celebrity"}
+                      setArticlesRebuild={setArticlesRebuild}
                     />
                   </TabPanel>
                   <TabPanel value={"3"}>
-                    <TargetArticles targetBoArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoArticles={targetBoArticles}
+                      setArticlesRebuild={setArticlesRebuild}
+                    />
                   </TabPanel>
                   <TabPanel value={"4"}>
-                    <TargetArticles targetBoArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoArticles={targetBoArticles}
+                      setArticlesRebuild={setArticlesRebuild}
+                    />
                   </TabPanel>
                 </Box>
 
                 <Box className={"article_bott"}>
                   <Pagination
-                    count={3}
+                    count={5}
                     page={1}
                     renderItem={(item) => (
                       <PaginationItem
