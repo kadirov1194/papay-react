@@ -1,19 +1,21 @@
 import { BoArticle } from "./boArticle";
+import { Follower, Following } from "./follow";
 import { Order } from "./order";
 import { Product } from "./product";
-import { Restaurant } from "./user";
+import { Member, Restaurant } from "./user";
 
-/** REACT APP STATE */
+/**REACT APP STATE */
 export interface AppRootState {
   homePage: HomePageState;
   restaurantPage: RestaurantPageState;
   ordersPage: OrdersPageState;
   communityPage: CommunityPageState;
+  memberPage: MemberPageState;
 }
 
-/**  HOMEPAGE  */
+/**HOMEPAGE */
 export interface HomePageState {
-  topRestaturants: Restaurant[];
+  topRestaurants: Restaurant[];
   bestRestaurants: Restaurant[];
   trendProducts: Product[];
   bestBoArticles: BoArticle[];
@@ -21,7 +23,7 @@ export interface HomePageState {
   newsBoArticles: BoArticle[];
 }
 
-/**   RESTAURANT PAGE  */
+/**RESTAURANT PAGE */
 export interface RestaurantPageState {
   targetRestaurants: Restaurant[];
   randomRestaurants: Restaurant[];
@@ -30,14 +32,23 @@ export interface RestaurantPageState {
   chosenProduct: Product | null;
 }
 
-/** Orders */
+/**ORDERS PAGE */
 export interface OrdersPageState {
   pausedOrders: Order[];
   processOrders: Order[];
   finishedOrders: Order[];
 }
 
-/** Community Page */
+/**COMMUNITY PAGE */
 export interface CommunityPageState {
   targetBoArticles: BoArticle[];
+}
+
+/**MEMBER PAGE */
+export interface MemberPageState {
+  chosenMember: Member | null;
+  chosenMemberBoArticles: BoArticle[];
+  chosenSingleBoArticle: BoArticle | null;
+  memberFollowers: Follower[];
+  memberFollowings: Following[];
 }
