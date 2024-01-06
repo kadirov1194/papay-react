@@ -12,13 +12,71 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import TViewer from "../../components/tuiEditor/TViewer";
+import { MySettings } from "./mySettings";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenMember,
+  retrieveChosenSingleBoArticle,
+  retrieveChosenMemberBoArticles,
+} from "./selector";
+import { createSelector } from "reselect";
+import { Member } from "../../../types/user";
+import { serverApi } from "../../../lib/config";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setChosenMember,
+  setChosenMemberBoArticles,
+  setChosenSingleBoArticle,
+} from "./slice";
+import { BoArticle } from "../../../types/boArticle";
+
+// REDUX SELECTOR
+const chosenMemberRetriever = createSelector(
+  retrieveChosenMember,
+  (chosenMember) => ({
+    chosenMember,
+  })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+  retrieveChosenSingleBoArticle,
+  (chosenMemberBoArticles) => ({
+    chosenMemberBoArticles,
+  })
+);
+const chosenSingleBoArticlesRetriever = createSelector(
+  retrieveChosenMemberBoArticles,
+  (chosenSingleBoArticles) => ({
+    chosenSingleBoArticles,
+  })
+);
 
 export function VisitOtherPage() {
   /**INITIALIZATION */
-  const [value, setValue] = useState("3");
+  const {
+    setChosenMember,
+    setChosenMemberBoArticles,
+    setChosenSingleBoArticle,
+  } = actionDispatch(useDispatch());
+  const { chosenMember } = useSelector(chosenMemberRetriever);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetriever
+  );
+  const { chosenSingleBoArticles } = useSelector(
+    chosenSingleBoArticlesRetriever
+  );
+  const [value, setValue] = useState("4");
 
-  /**HANDLERS */
-  const handleChange = (event: any, newValue: string) => {
+  // HANDLERS
+  const handleChange = (_event: any, newValue: string) => {
     setValue(newValue);
   };
 
@@ -27,7 +85,7 @@ export function VisitOtherPage() {
       <Container maxWidth="lg" sx={{ mt: "50px", mb: "50px" }}>
         <Stack className={"my_page_frame"}>
           <TabContext value={value}>
-          <Stack className={"my_page_left"}>
+            <Stack className={"my_page_left"}>
               <Box display={"flex"} flexDirection={"column"}>
                 <TabPanel value="1">
                   <Box className={"menu_name"}>Maqolalar</Box>
@@ -120,7 +178,7 @@ export function VisitOtherPage() {
                 <TabPanel value="4">
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
                   <Box className={"menu_content"}>
-                    <TViewer text={`<h3>Hello</h3>`}/>
+                    <TViewer text={`<h3>Hello</h3>`} />
                     {/* <MemberFollowers actions_enabled={false} /> */}
                     <Stack
                       sx={{ my: "40px" }}
@@ -198,7 +256,7 @@ export function VisitOtherPage() {
                       component={() => (
                         <Button
                           variant="contained"
-                          style={{background: "#f70909b8"}}
+                          style={{ background: "#f70909b8" }}
                         >
                           BEKOR QILSIH
                         </Button>
@@ -261,4 +319,11 @@ export function VisitOtherPage() {
       </Container>
     </div>
   );
+}
+function actionDispatch(arg0: any): {
+  setChosenMember: any;
+  setChosenMemberBoArticles: any;
+  setChosenSingleBoArticle: any;
+} {
+  throw new Error("Function not implemented.");
 }

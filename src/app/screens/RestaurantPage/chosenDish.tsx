@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -11,67 +11,67 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
-import { FreeMode, Navigation, Pagination, Thumbs } from "swiper";
+import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import Checkbox from "@mui/material/Checkbox";
 import { useParams } from "react-router-dom";
-import { Restaurant } from '../../../types/user';
 import { Product } from "../../../types/product";
-import assert from 'assert';
-import { Definer } from '../../../lib/Definer';
-
-
-//Redux
-import { useSelector,useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenProduct,
+  retrieveChosenRestaurant,
+} from "../RestaurantPage/selector";
 import { createSelector } from "reselect";
+import { Restaurant } from "../../../types/user";
+import { serverApi } from "../../../lib/config";
+import { Dispatch } from "@reduxjs/toolkit";
 import {
-    retrieveChosenProduct, retrieveChosenRestaurant,
-} from "../../screens/RestaurantPage/selector";
-import { Dispatch } from '@reduxjs/toolkit';
-import {
-    setChosenRestaurant,
-    setChosenProduct
+  setChosenRestaurant,
+  setChosenProduct,
 } from "../../screens/RestaurantPage/slice";
+import { useEffect } from "react";
 import ProductApiService from "../../apiServices/productApiService";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { serverApi } from "../../../lib/config";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
-
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
-      setChosenProduct: (data: Product) => dispach(setChosenProduct(data)),
-      setChosenRestaurant: (data: Restaurant) => dispach(setChosenRestaurant(data)),
-  
+  setChosenProduct: (data: Product) => dispach(setChosenProduct(data)),
+  setChosenRestaurant: (data: Restaurant) => dispach(setChosenRestaurant(data)),
 });
 
 //** Redux Selector */
 const chosenProductRetriever = createSelector(
   retrieveChosenProduct,
-(chosenProduct) => ({
-  chosenProduct,
-})
+  (chosenProduct) => ({
+    chosenProduct,
+  })
 );
 const chosenRestaurantRetriever = createSelector(
   retrieveChosenRestaurant,
-(chosenRestaurant) => ({
-  chosenRestaurant,
-})
+  (chosenRestaurant) => ({
+    chosenRestaurant,
+  })
 );
-
 
 // const chosen_list = Array.from(Array(5).keys());
 
 export function ChosenDish(props: any) {
   /** INITIALIZATION*/
-  let {dish_id} = useParams<{dish_id: string}>()
-  const { setChosenProduct, setChosenRestaurant } = actionDispatch(useDispatch());
+  let { dish_id } = useParams<{ dish_id: string }>();
+  const { setChosenProduct, setChosenRestaurant } = actionDispatch(
+    useDispatch()
+  );
 
   const { chosenProduct } = useSelector(chosenProductRetriever);
   const { chosenRestaurant } = useSelector(chosenRestaurantRetriever);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  const [productRebuild, setProductRebuild] = useState<Date>(new Date())
-
+  const [productRebuild, setProductRebuild] = useState<Date>(new Date());
 
   const dishRelatedProcess = async () => {
     try {
@@ -85,14 +85,13 @@ export function ChosenDish(props: any) {
       );
       setChosenRestaurant(restaurant);
     } catch (err) {
-      console.log(`dishRelatedProcess, ERROR:`, err)
+      console.log(`dishRelatedProcess, ERROR:`, err);
     }
-  }
+  };
 
   useEffect(() => {
-   dishRelatedProcess().then()
-  }, [productRebuild])
-
+    dishRelatedProcess().then();
+  }, [productRebuild]);
 
   // HANDLERS
   const targetLikeProduct = async (e: any) => {
@@ -104,17 +103,15 @@ export function ChosenDish(props: any) {
           like_ref_id: e.target.id,
           group_type: "product",
         });
-        assert.ok(like_result, Definer.general_err1);
-        
-        await sweetTopSmallSuccessAlert("success", 700, false);
-        setProductRebuild(new Date());
+      assert.ok(like_result, Definer.general_err1);
+
+      await sweetTopSmallSuccessAlert("success", 700, false);
+      setProductRebuild(new Date());
     } catch (err: any) {
       console.log("targetLikeProduct, ERROR:", err);
       sweetErrorHandling(err).then();
     }
   };
-
- 
 
   return (
     <div className="chosen_dish_page">
@@ -181,7 +178,8 @@ export function ChosenDish(props: any) {
                     onClick={targetLikeProduct}
                     checked={
                       chosenProduct?.me_liked &&
-                      !!chosenProduct?.me_liked[0]?.my_favorite}
+                      !!chosenProduct?.me_liked[0]?.my_favorite
+                    }
                   />
 
                   <span>{chosenProduct?.product_likes} ta</span>
@@ -192,9 +190,11 @@ export function ChosenDish(props: any) {
                 </div>
               </div>
             </Box>
-            <p className="dish_desc_info">{chosenProduct?.product_description
-              ? chosenProduct?.product_description
-              : "no description"}</p>
+            <p className="dish_desc_info">
+              {chosenProduct?.product_description
+                ? chosenProduct?.product_description
+                : "no description"}
+            </p>
             <Marginer
               direction="horizontal"
               height="1"
@@ -206,11 +206,14 @@ export function ChosenDish(props: any) {
               <span>{chosenProduct?.product_price} $</span>
             </div>
             <div className="button_box">
-              <Button variant="contained"
+              <Button
+                variant="contained"
                 onClick={() => {
-                props.onAdd(chosenProduct)
+                  props.onAdd(chosenProduct);
                 }}
-              >Savatga qo'shish</Button>
+              >
+                Savatga qo'shish
+              </Button>
             </div>
           </Box>
         </Stack>

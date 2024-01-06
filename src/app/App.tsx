@@ -3,6 +3,7 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import "../css/App.css";
 import "../css/navbar.css";
 import "../css/footer.css";
+import { RippleBadge } from "./MaterialTheme/styled";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { RestaurantPage } from "./screens/RestaurantPage";
 import { CommunityPage } from "./screens/CommunityPage";
@@ -24,7 +25,6 @@ import {
   sweetTopSmallSuccessAlert,
 } from "../lib/sweetAlert";
 import { Definer } from "../lib/Definer";
-import assert from "assert";
 import { CartItem } from "../types/others";
 import { Product } from "../types/product";
 
@@ -211,7 +211,7 @@ function App() {
           />
         </Route>
         <Route path="/member-page">
-          <MemberPage />
+          <MemberPage verifiedMemberData={verifiedMemberData} />
         </Route>
         <Route path="/help">
           <HelpPage />
