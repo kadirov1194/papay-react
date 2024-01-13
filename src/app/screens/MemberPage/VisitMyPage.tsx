@@ -49,7 +49,6 @@ import {
 import { BoArticle, SearchMemberArticlesObj } from "../../../types/boArticle";
 import CommunityApiService from "../../apiServices/communityApiService";
 import { verifiedMemberData } from "../../apiServices/verify";
-
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
   setChosenMember: (data: Member) => dispach(setChosenMember(data)),
@@ -67,17 +66,18 @@ const chosenMemberRetriever = createSelector(
   })
 );
 const chosenMemberBoArticlesRetriever = createSelector(
-  retrieveChosenSingleBoArticle,
+  retrieveChosenMemberBoArticles,
   (chosenMemberBoArticles) => ({
     chosenMemberBoArticles,
   })
 );
 const chosenSingleBoArticlesRetriever = createSelector(
-  retrieveChosenMemberBoArticles,
+  retrieveChosenSingleBoArticle,
   (chosenSingleBoArticles) => ({
     chosenSingleBoArticles,
   })
 );
+
 export function VisitMyPage(props: any) {
   //INITIALIZIATION
 
