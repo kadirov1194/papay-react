@@ -108,8 +108,7 @@ export function Events() {
                           className={"text_desc"}
                           style={{ marginTop: "10px" }}
                         >
-                          {" "}
-                          {value.desc}{" "}
+                          {value.desc}
                         </p>
 
                         <div

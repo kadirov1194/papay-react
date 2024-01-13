@@ -103,9 +103,10 @@ export const TuiEditor = (props: any) => {
           </Typography>
           <FormControl sx={{ width: "100%", background: "white" }}>
             <Select
-              value={"celebrity"}
+              value={communityArticleData.bo_id}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
+              onChange={changeCategoryHandler}
             >
               <MenuItem value="">
                 <span>categoriyani tanlang</span>
@@ -128,6 +129,7 @@ export const TuiEditor = (props: any) => {
             label="Mavzu"
             variant="filled"
             style={{ width: "300px", background: "white" }}
+            onChange={changeTitleHandler}
           />
         </Box>
       </Stack>
@@ -145,6 +147,9 @@ export const TuiEditor = (props: any) => {
         ]}
         hooks={{
           addImageBlobHook: async (image: any, callback: any) => {
+            const uploadImageURL = await uploadImage(image);
+            console.log("uploadImageURL", uploadImageURL);
+            callback(uploadImageURL);
             return false;
           },
         }}
@@ -157,6 +162,7 @@ export const TuiEditor = (props: any) => {
           variant="contained"
           color="primary"
           style={{ margin: "30px", width: "250px", height: "45px" }}
+          onClick={handleRegisterButton}
         >
           Registar
         </Button>

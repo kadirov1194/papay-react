@@ -4,6 +4,7 @@ import { Route, Switch, useLocation, useRouteMatch } from "react-router-dom";
 import { VisitOtherPage } from "./visitOtherPage";
 import { VisitMyPage } from "./visitMyPage";
 import "../../../css/my_page.css";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 function useQuery() {
   const { search } = useLocation();

@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 export function NavbarHome(props: any) {
   // INITIALIZATION
@@ -36,38 +37,36 @@ export function NavbarHome(props: any) {
             className="navbar_links"
           >
             <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/" activeClassName="underline">
-                Home
+              <NavLink to={"/"} activeClassName="underline">
+                Bosh Sahifa
               </NavLink>
             </Box>
             <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/restaurant" activeClassName="underline">
+              <NavLink to={"/restaurant"} activeClassName="underline">
                 Restaurant
               </NavLink>
             </Box>
-            {props.verifiedMemberData ? (
+            {verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
-                <NavLink to="/orders" activeClassName="underline">
-                  Orders
+                <NavLink to={"/orders"} activeClassName="underline">
+                  Buyurtma
                 </NavLink>
               </Box>
             ) : null}
-            ;
             <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/community" activeClassName="underline">
+              <NavLink to={"/community"} activeClassName="underline">
                 Community
               </NavLink>
             </Box>
-            {props.verifiedMemberData ? (
+            {verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/member-page" activeClassName="underline">
-                  Sahifam
+                  MyPage
                 </NavLink>
               </Box>
             ) : null}
-            ;
             <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/help" activeClassName="underline">
+              <NavLink to={"/help"} activeClassName="underline">
                 Help
               </NavLink>
             </Box>
@@ -79,7 +78,7 @@ export function NavbarHome(props: any) {
               onDeleteAll={props.onDeleteAll}
               setOrderRebuild={props.setOrderRebuild}
             />
-            {!props.verifiedMemberData ? (
+            {!verifiedMemberData ? (
               <Box>
                 <Button
                   variant="contained"
@@ -95,7 +94,7 @@ export function NavbarHome(props: any) {
             ) : (
               <img
                 style={{ width: "48px", height: "48px", borderRadius: "24px" }}
-                src={props.verifiedMemberData.mb_image}
+                src={verifiedMemberData.mb_image}
                 onClick={props.handleLogOutClick}
               />
             )}
@@ -157,7 +156,7 @@ export function NavbarHome(props: any) {
             </Box>
             <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
             <Box sx={{ mt: "90px" }}>
-              {!props.verifiedMemberData ? (
+              {!verifiedMemberData ? (
                 <Button
                   variant="contained"
                   style={{
@@ -172,8 +171,8 @@ export function NavbarHome(props: any) {
               ) : null}
             </Box>
           </Stack>
-          <Stack flexDirection={"column"}>
-            <div className="big_img"></div>
+          <Stack>
+            <Box className="big_img"></Box>
           </Stack>
         </Stack>
       </Container>

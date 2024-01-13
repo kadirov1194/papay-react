@@ -121,7 +121,7 @@ export default function Basket(props: any) {
                     <img src={image_path} className={"product_img"} />
                     <span className={"product_name"}>{item.name}</span>
                     <p className={"product_price"}>
-                      {item.price} x {item.quantity}
+                      ${item.price} x {item.quantity}
                     </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">
@@ -130,7 +130,7 @@ export default function Basket(props: any) {
                           className="remove"
                         >
                           -
-                        </button>{" "}
+                        </button>
                         <button onClick={() => onAdd(item)} className="add">
                           +
                         </button>

@@ -8,7 +8,6 @@ import {
   SearchArticlesObj,
   SearchMemberArticlesObj,
 } from "../../types/boArticle";
-
 class CommunityApiService {
   private readonly path: string;
 

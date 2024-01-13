@@ -45,19 +45,19 @@ function App() {
   const current_cart: CartItem[] = JSON.parse(cartJson) ?? [];
   const [cartItems, setCartItems] = useState<CartItem[]>(current_cart);
 
-  useEffect(() => {
-    console.log("====useEffect====: App:");
-    const memberDataJson: any = localStorage.getItem("member_data")
-      ? localStorage.getItem("member_data")
-      : null;
-    const member_data = memberDataJson ? JSON.parse(memberDataJson) : null;
-    if (member_data) {
-      member_data.mb_image = member_data.mb_image
-        ? `${serverApi}/${member_data.mb_image}`
-        : "/auth/default_user.svg";
-      setVerifiedMemberData(member_data);
-    }
-  }, [signUpOpen, loginOpen]);
+  // useEffect(() => {
+  //   console.log("====useEffect====: App:");
+  //   const memberDataJson: any = localStorage.getItem("member_data")
+  //     ? localStorage.getItem("member_data")
+  //     : null;
+  //   const member_data = memberDataJson ? JSON.parse(memberDataJson) : null;
+  //   if (member_data) {
+  //     member_data.mb_image = member_data.mb_image
+  //       ? `${serverApi}/${member_data.mb_image}`
+  //       : "/auth/default_user.svg";
+  //     setVerifiedMemberData(member_data);
+  //   }
+  // }, [signUpOpen, loginOpen]);
 
   // HANDLERS
   const handleSignUpOpen = () => setSignUpOpen(true);
@@ -83,11 +83,11 @@ function App() {
   };
 
   const onAdd = (product: Product) => {
-    const exist: any = cartItems.find(
+    const exist: any = cartItems?.find(
       (item: CartItem) => item._id === product._id
     );
     if (exist) {
-      const cart_update = cartItems.map((item: CartItem) =>
+      const cart_update = cartItems?.map((item: CartItem) =>
         item._id === product._id
           ? { ...exist, quantity: exist.quantity + 1 }
           : item
@@ -108,11 +108,11 @@ function App() {
     }
   };
   const onRemove = (item: CartItem) => {
-    const item_data: any = cartItems.find(
+    const item_data: any = cartItems?.find(
       (ele: CartItem) => ele._id === item._id
     );
     if (item_data.quantity === 1) {
-      const cart_updated = cartItems.filter(
+      const cart_updated = cartItems?.filter(
         (ele: CartItem) => ele._id !== item._id
       );
       setCartItems(cart_updated);
