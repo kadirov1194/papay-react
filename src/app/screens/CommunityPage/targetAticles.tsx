@@ -15,6 +15,7 @@ import {
 import assert from "assert";
 import MemberApiService from "../../apiServices/memberApiService";
 import { Definer } from "../../../lib/Definer";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -22,7 +23,7 @@ export function TargetArticles(props: any) {
   /**HANDLERS */
   const targetLikeHandler = async (e: any) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      assert.ok(verifiedMemberData, Definer.auth_err1);
 
       const memberService = new MemberApiService();
       const like_result = await memberService.memberLikeTarget({
@@ -46,9 +47,9 @@ export function TargetArticles(props: any) {
           : "/community/default_user.svg";
         return (
           <Link
-            className={"all_article_box"}
+            className="all_article_box"
             sx={{ textDecoration: "none" }}
-            href={``}
+            href={`/member-page/other?mb_id=${article.mb_id}&art_id=${article._id}`}
           >
             <Box
               className={"all_article_img"}
@@ -57,7 +58,7 @@ export function TargetArticles(props: any) {
             <Box className={"all_article_container"}>
               <Box alignItems={"center"} display={"flex"}>
                 <img
-                  src={"/auth/default_user.svg"}
+                  src={"/community/default_user.svg"}
                   width={"35px"}
                   style={{ borderRadius: "50%", backgroundSize: "cover" }}
                 />
@@ -111,9 +112,7 @@ export function TargetArticles(props: any) {
                         }
                       />
 
-                      <span style={{ marginRight: "10px" }}>
-                        {article?.art_likes}
-                      </span>
+                      <span>{article?.art_likes}</span>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <RemoveRedEyeIcon sx={{ mr: "10px" }} />
                         <span>{article?.art_views}</span>

@@ -20,7 +20,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setTargetBoArticles } from "./slice";
-import { retriveTargetBoArticles } from "./selector";
+import { retrieveTargetBoArticles } from "./selector";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -28,20 +28,20 @@ const actionDispatch = (dispach: Dispatch) => ({
     dispach(setTargetBoArticles(data)),
 });
 
-//** Redux Selector */
-const targetBoArtivclesRetriever = createSelector(
-  retriveTargetBoArticles,
+// REDUX SELECTOR
+const targetBoArticlesRetriever = createSelector(
+  retrieveTargetBoArticles,
   (targetBoArticles) => ({
     targetBoArticles,
   })
 );
 
 export function CommunityPage(props: any) {
-  // INITIALIZATION
+  // INITIALIZATIONS
   const { setTargetBoArticles } = actionDispatch(useDispatch());
-  const { targetBoArticles } = useSelector(targetBoArtivclesRetriever);
+  const { targetBoArticles } = useSelector(targetBoArticlesRetriever);
 
-  const [Value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("1");
   const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticlesObj>(
     { bo_id: "all", page: 1, limit: 5 }
   );
@@ -91,7 +91,7 @@ export function CommunityPage(props: any) {
               inputMode={"text"}
               style={{ border: "1px solid #fff" }}
             >
-              <TabContext value={Value}>
+              <TabContext value={value}>
                 <Box className={"article_tabs"}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <TabList
@@ -136,8 +136,12 @@ export function CommunityPage(props: any) {
 
                 <Box className={"article_bott"}>
                   <Pagination
-                    count={5}
-                    page={1}
+                    count={
+                      searchArticlesObj.page >= 3
+                        ? searchArticlesObj.page + 1
+                        : 3
+                    }
+                    page={searchArticlesObj.page}
                     renderItem={(item) => (
                       <PaginationItem
                         components={{
@@ -145,7 +149,7 @@ export function CommunityPage(props: any) {
                           next: ArrowForward,
                         }}
                         {...item}
-                        color={"secondary"}
+                        color={"primary"}
                       />
                     )}
                     onChange={handlePaginationChange}

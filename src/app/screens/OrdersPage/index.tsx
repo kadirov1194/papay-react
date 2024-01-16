@@ -20,20 +20,20 @@ import {
 } from "../../screens/OrdersPage/slice";
 import OrderApiService from "../../apiServices/orderApiService";
 import { Member } from "../../../types/user";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
   setPausedOrders: (data: Order[]) => dispach(setPausedOrders(data)),
-  setProcessOrders: (data: Order) => dispach(setProcessOrders(data)),
+  setProcessOrders: (data: Order[]) => dispach(setProcessOrders(data)),
   setFinishedOrders: (data: Order[]) => dispach(setFinishedOrders(data)),
 });
 
 export function OrdersPage(props: any) {
-  /** INITIALIZATIONS **/
+  // INITIALIZATIONS
   const [value, setValue] = useState("1");
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
-  const verifiedMemberData: Member | null = props.verifiedMemberData;
 
   useEffect(() => {
     const orderService = new OrderApiService();
@@ -51,11 +51,11 @@ export function OrdersPage(props: any) {
       .catch((err) => console.log(err));
   }, [props.orderRebuild]);
 
-  /** HANDLERS **/
+  // HANDLERS
   const handleChange = (event: any, newValue: string) => {
-    console.log("newValue", newValue);
     setValue(newValue);
   };
+
   return (
     <div className={"order_page"}>
       <Container

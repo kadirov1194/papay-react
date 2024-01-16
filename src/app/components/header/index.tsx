@@ -38,7 +38,7 @@ export function NavbarHome(props: any) {
           >
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to={"/"} activeClassName="underline">
-                Bosh Sahifa
+                Home
               </NavLink>
             </Box>
             <Box className="hover-line" onClick={props.setPath}>
@@ -49,7 +49,7 @@ export function NavbarHome(props: any) {
             {verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to={"/orders"} activeClassName="underline">
-                  Buyurtma
+                  Orders
                 </NavLink>
               </Box>
             ) : null}
@@ -166,7 +166,7 @@ export function NavbarHome(props: any) {
                   }}
                   onClick={props.handleSignUpOpen}
                 >
-                  RO'YHATDAN O'TISH
+                  REGISTRATION
                 </Button>
               ) : null}
             </Box>

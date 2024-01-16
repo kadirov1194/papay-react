@@ -38,14 +38,14 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
   setChosenProduct: (data: Product) => dispach(setChosenProduct(data)),
   setChosenRestaurant: (data: Restaurant) => dispach(setChosenRestaurant(data)),
 });
-
-//** Redux Selector */
+// REDUX SELECTOR
 const chosenProductRetriever = createSelector(
   retrieveChosenProduct,
   (chosenProduct) => ({
@@ -59,15 +59,14 @@ const chosenRestaurantRetriever = createSelector(
   })
 );
 
-// const chosen_list = Array.from(Array(5).keys());
+const chosen_list = Array.from(Array(5).keys());
 
 export function ChosenDish(props: any) {
-  /** INITIALIZATION*/
+  /**INITIALIZATIONS */
   let { dish_id } = useParams<{ dish_id: string }>();
   const { setChosenProduct, setChosenRestaurant } = actionDispatch(
     useDispatch()
   );
-
   const { chosenProduct } = useSelector(chosenProductRetriever);
   const { chosenRestaurant } = useSelector(chosenRestaurantRetriever);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -85,18 +84,17 @@ export function ChosenDish(props: any) {
       );
       setChosenRestaurant(restaurant);
     } catch (err) {
-      console.log(`dishRelatedProcess, ERROR:`, err);
+      console.log("dishRelatedProcess, ERROR:", err);
     }
   };
-
   useEffect(() => {
     dishRelatedProcess().then();
   }, [productRebuild]);
 
-  // HANDLERS
+  /**HANDLERS */
   const targetLikeProduct = async (e: any) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      assert.ok(verifiedMemberData, Definer.auth_err1);
 
       const memberService = new MemberApiService(),
         like_result = await memberService.memberLikeTarget({
@@ -137,7 +135,7 @@ export function ChosenDish(props: any) {
             })}
           </Swiper>
           <Swiper
-            slidesPerView={3}
+            slidesPerView={chosenProduct?.product_images.length}
             spaceBetween={20}
             pagination={{
               clickable: true,
@@ -178,7 +176,9 @@ export function ChosenDish(props: any) {
                     onClick={targetLikeProduct}
                     checked={
                       chosenProduct?.me_liked &&
-                      !!chosenProduct?.me_liked[0]?.my_favorite
+                      chosenProduct?.me_liked[0]?.my_favorite
+                        ? true
+                        : false
                     }
                   />
 
@@ -220,8 +220,4 @@ export function ChosenDish(props: any) {
       </Container>
     </div>
   );
-}
-
-function setProductRebuild(arg0: Date) {
-  throw new Error("Function not implemented.");
 }

@@ -18,18 +18,17 @@ const actionDispatch = (dispach: Dispatch) => ({
 });
 
 // REDUX SELECTOR
-const trendProductRetriever = createSelector(
+const trendProductsRetriever = createSelector(
   retrieveTrendProducts,
   (trendProducts) => ({
     trendProducts,
   })
 );
-
 export function BestDishes() {
-  // INITIALIZATION
+  //INITIALIZATION
   const history = useHistory();
   const { setTrendProducts } = actionDispatch(useDispatch());
-  const { trendProducts } = useSelector(trendProductRetriever);
+  const { trendProducts } = useSelector(trendProductsRetriever);
   useEffect(() => {
     const productService = new ProductApiService();
     productService
@@ -38,8 +37,7 @@ export function BestDishes() {
       .catch((err) => console.log(err));
   }, []);
 
-  /** HANDLERS */
-
+  /**HANDLERS */
   const chosenDishHandler = (id: string) => {
     history.push(`/restaurant/dish/${id}`);
   };
@@ -86,7 +84,7 @@ export function BestDishes() {
                     </span>
                     <span className={"dish_desc_text"}>
                       <MonetizationOn />
-                      11
+                      {product.product_price}
                     </span>
                   </Stack>
                 </Box>

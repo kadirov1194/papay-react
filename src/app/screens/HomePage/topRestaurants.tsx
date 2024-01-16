@@ -25,9 +25,10 @@ import { createSelector } from "reselect";
 import { retrieveTopRestaurants } from "../../screens/HomePage/selector";
 import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../../lib/config";
+import { verifiedMemberData } from "../../apiServices/verify";
 
-//** Redux Selector */
-const topRestaurantsRetriever = createSelector(
+// REDUX SELECTOR
+const topRestaurantRetriever = createSelector(
   retrieveTopRestaurants,
   (topRestaurants) => ({
     topRestaurants,
@@ -35,25 +36,23 @@ const topRestaurantsRetriever = createSelector(
 );
 
 export function TopRestaurants() {
-  // Initializations
+  /**INITIALIZATIONS */
   const history = useHistory();
-  const { topRestaurants } = useSelector(topRestaurantsRetriever);
+  const { topRestaurants } = useSelector(topRestaurantRetriever);
   console.log("topRestaurants:", topRestaurants);
   const refs: any = useRef([]);
 
-  console.log("topRestaurants:::", topRestaurants);
-
-  /** Handlers */
+  /**HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
     history.push(`/restaurant/${id}`);
   };
 
   const targetLikeTop = async (e: any, id: string) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      assert.ok(verifiedMemberData, Definer.auth_err1);
 
       const memberService = new MemberApiService(),
-        like_result: any = await memberService.memberLikeTarget({
+        like_result = await memberService.memberLikeTarget({
           like_ref_id: id,
           group_type: "member",
         });
@@ -195,7 +194,7 @@ export function TopRestaurants() {
                             refs.current[ele._id] = element;
                           }}
                         >
-                                      {ele.mb_likes}
+                          {ele.mb_likes}
                         </div>
                         <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>

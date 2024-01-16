@@ -18,7 +18,6 @@ import { NavbarOthers } from "./components/header/others";
 import { Footer } from "./components/footer";
 import AuthenticationModal from "./components/auth";
 import { Member } from "../types/user";
-import { serverApi } from "../lib/config";
 import MemberApiService from "./apiServices/memberApiService";
 import {
   sweetFailureProvider,
@@ -27,12 +26,10 @@ import {
 import { Definer } from "../lib/Definer";
 import { CartItem } from "../types/others";
 import { Product } from "../types/product";
+import "../app/apiServices/verify";
 
 function App() {
   // INITIALIZATION
-  const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(
-    null
-  );
   const [path, setPath] = useState();
   const main_path = window.location.pathname;
   const [signUpOpen, setSignUpOpen] = useState(false);
@@ -45,26 +42,11 @@ function App() {
   const current_cart: CartItem[] = JSON.parse(cartJson) ?? [];
   const [cartItems, setCartItems] = useState<CartItem[]>(current_cart);
 
-  // useEffect(() => {
-  //   console.log("====useEffect====: App:");
-  //   const memberDataJson: any = localStorage.getItem("member_data")
-  //     ? localStorage.getItem("member_data")
-  //     : null;
-  //   const member_data = memberDataJson ? JSON.parse(memberDataJson) : null;
-  //   if (member_data) {
-  //     member_data.mb_image = member_data.mb_image
-  //       ? `${serverApi}/${member_data.mb_image}`
-  //       : "/auth/default_user.svg";
-  //     setVerifiedMemberData(member_data);
-  //   }
-  // }, [signUpOpen, loginOpen]);
-
   // HANDLERS
   const handleSignUpOpen = () => setSignUpOpen(true);
   const handleSignUpClose = () => setSignUpOpen(false);
   const handleLoginOpen = () => setLoginOpen(true);
   const handleLoginClose = () => setLoginOpen(false);
-
   const handleLogOutClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -87,13 +69,13 @@ function App() {
       (item: CartItem) => item._id === product._id
     );
     if (exist) {
-      const cart_update = cartItems?.map((item: CartItem) =>
+      const cart_updated = cartItems?.map((item: CartItem) =>
         item._id === product._id
           ? { ...exist, quantity: exist.quantity + 1 }
           : item
       );
-      setCartItems(cart_update);
-      localStorage.setItem("cart_data", JSON.stringify(cart_update));
+      setCartItems(cart_updated);
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     } else {
       const new_item: CartItem = {
         _id: product._id,
@@ -112,7 +94,7 @@ function App() {
       (ele: CartItem) => ele._id === item._id
     );
     if (item_data.quantity === 1) {
-      const cart_updated = cartItems?.filter(
+      const cart_updated = cartItems.filter(
         (ele: CartItem) => ele._id !== item._id
       );
       setCartItems(cart_updated);
@@ -150,7 +132,6 @@ function App() {
           handleLogOutClick={handleLogOutClick}
           handleCloseLogOut={handleCloseLogOut}
           handleLogOutRequest={handleLogOutRequest}
-          verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
           onAdd={onAdd}
           onRemove={onRemove}
@@ -168,7 +149,6 @@ function App() {
           handleLogOutClick={handleLogOutClick}
           handleCloseLogOut={handleCloseLogOut}
           handleLogOutRequest={handleLogOutRequest}
-          verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
           onAdd={onAdd}
           onRemove={onRemove}
@@ -186,7 +166,6 @@ function App() {
           handleLogOutClick={handleLogOutClick}
           handleCloseLogOut={handleCloseLogOut}
           handleLogOutRequest={handleLogOutRequest}
-          verifiedMemberData={verifiedMemberData}
           cartItems={cartItems}
           onAdd={onAdd}
           onRemove={onRemove}
@@ -207,11 +186,11 @@ function App() {
           <OrdersPage
             orderRebuild={orderRebuild}
             setOrderRebuild={setOrderRebuild}
-            verifiedMemberData={verifiedMemberData}
+            //verifiedMemberData={verifiedMemberData}
           />
         </Route>
         <Route path="/member-page">
-          <MemberPage verifiedMemberData={verifiedMemberData} />
+          <MemberPage />
         </Route>
         <Route path="/help">
           <HelpPage />

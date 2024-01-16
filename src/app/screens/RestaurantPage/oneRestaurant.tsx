@@ -40,24 +40,23 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
   setRandomRestaurants: (data: Restaurant[]) =>
     dispach(setRandomRestaurants(data)),
-  setChosenRestaurants: (data: Restaurant) =>
-    dispach(setChosenRestaurant(data)),
+  setChosenRestaurant: (data: Restaurant) => dispach(setChosenRestaurant(data)),
   setTargetProducts: (data: Product[]) => dispach(setTargetProducts(data)),
 });
-
-//** Redux Selector */
+// REDUX SELECTOR
 const randomRestaurantsRetriever = createSelector(
   retrieveRandomRestaurants,
   (randomRestaurants) => ({
     randomRestaurants,
   })
 );
-const chosenRestaurantsRetriever = createSelector(
+const chosenRestaurantRetriever = createSelector(
   retrieveChosenRestaurant,
   (chosenRestaurant) => ({
     chosenRestaurant,
@@ -71,25 +70,24 @@ const targetProductsRetriever = createSelector(
 );
 
 export function OneRestaurant(props: any) {
-  // Initializations
+  /**INITIALIZATIONS */
   const history = useHistory();
   let { restaurant_id } = useParams<{ restaurant_id: string }>();
-  const { setRandomRestaurants, setChosenRestaurants, setTargetProducts } =
+  const { setRandomRestaurants, setChosenRestaurant, setTargetProducts } =
     actionDispatch(useDispatch());
   const { randomRestaurants } = useSelector(randomRestaurantsRetriever);
-  const { chosenRestaurant } = useSelector(chosenRestaurantsRetriever);
+  const { chosenRestaurant } = useSelector(chosenRestaurantRetriever);
   const { targetProducts } = useSelector(targetProductsRetriever);
-  const [chosenRestaurantId, setChosenRestaurantsId] =
+  const [chosenRestaurantId, setChosenRestaurantId] =
     useState<string>(restaurant_id);
   const [targetProductSearchObj, setTargetProductSearchObj] =
     useState<ProductSearchObj>({
       page: 1,
-      limit: 8,
+      limit: 4,
       order: "createdAt",
       restaurant_mb_id: restaurant_id,
       product_collection: "dish",
     });
-
   const [productRebuild, setProductRebuild] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -101,7 +99,7 @@ export function OneRestaurant(props: any) {
 
     restaurantService
       .getChosenRestaurant(chosenRestaurantId)
-      .then((data) => setChosenRestaurants(data))
+      .then((data) => setChosenRestaurant(data))
       .catch((err) => console.log(err));
 
     const productService = new ProductApiService();
@@ -109,11 +107,11 @@ export function OneRestaurant(props: any) {
       .getTargetProducts(targetProductSearchObj)
       .then((data) => setTargetProducts(data))
       .catch((err) => console.log(err));
-  }, [chosenRestaurantId, targetProductSearchObj, productRebuild]);
+  }, [targetProductSearchObj, productRebuild, chosenRestaurantId]);
 
-  /** Handlers */
+  /**HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
-    setChosenRestaurantsId(id);
+    setChosenRestaurantId(id);
     targetProductSearchObj.restaurant_mb_id = id;
     setTargetProductSearchObj({ ...targetProductSearchObj });
     history.push(`/restaurant/${id}`);
@@ -129,16 +127,17 @@ export function OneRestaurant(props: any) {
     targetProductSearchObj.order = order;
     setTargetProductSearchObj({ ...targetProductSearchObj });
   };
+
   const chosenDishHandler = (id: string) => {
     history.push(`/restaurant/dish/${id}`);
   };
 
   const targetLikeProduct = async (e: any) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      assert.ok(verifiedMemberData, Definer.auth_err1);
 
       const memberService = new MemberApiService(),
-        like_result: any = await memberService.memberLikeTarget({
+        like_result = await memberService.memberLikeTarget({
           like_ref_id: e.target.id,
           group_type: "product",
         });
@@ -336,7 +335,6 @@ export function OneRestaurant(props: any) {
                             id={product._id}
                             checkedIcon={<Favorite style={{ color: "red" }} />}
                             onClick={targetLikeProduct}
-                            /*@ts-ignore*/
                             checked={
                               product?.me_liked &&
                               product?.me_liked[0]?.my_favorite
@@ -470,7 +468,6 @@ export function OneRestaurant(props: any) {
                 </Box>
               );
             })}
-            ;
           </Box>
         </Stack>
 
@@ -494,8 +491,4 @@ export function OneRestaurant(props: any) {
       </Container>
     </div>
   );
-}
-
-function setProductRebuild(arg0: Date) {
-  throw new Error("Function not implemented.");
 }

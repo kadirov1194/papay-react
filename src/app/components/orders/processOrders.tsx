@@ -15,8 +15,9 @@ import {
   sweetFailureProvider,
 } from "../../../lib/sweetAlert";
 import OrderApiService from "../../apiServices/orderApiService";
+import { verifiedMemberData } from "../../apiServices/verify";
 
-//** Redux Selector */
+// REDUX SELECTOR
 const processOrdersRetriever = createSelector(
   retrieveProcessOrders,
   (processOrders) => ({
@@ -25,15 +26,16 @@ const processOrdersRetriever = createSelector(
 );
 
 export default function ProcessOrders(props: any) {
-  /** INITIALIZATON*/
+  /**INITIALIZATIONS */
   const { processOrders } = useSelector(processOrdersRetriever);
+
   /**HANDLERS */
   const finishOrderHandler = async (event: any) => {
     try {
       const order_id = event.target.value;
       const data = { order_id: order_id, order_status: "FINISHED" };
 
-      if (!localStorage.getItem("member_data")) {
+      if (!verifiedMemberData) {
         sweetFailureProvider("Please login first", true);
       }
 
@@ -50,7 +52,6 @@ export default function ProcessOrders(props: any) {
       sweetErrorHandling(err).then();
     }
   };
-
   return (
     <TabPanel value={"2"}>
       <Stack>

@@ -29,9 +29,10 @@ import { createSelector } from "reselect";
 import { retrieveBestRestaurants } from "../../screens/HomePage/selector";
 import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../../lib/config";
+import { verifiedMemberData } from "../../apiServices/verify";
 
-//** Redux Selector */
-const bestRestaurantsRetriever = createSelector(
+// REDUX SELECTOR
+const bestRestaurantRetriever = createSelector(
   retrieveBestRestaurants,
   (bestRestaurants) => ({
     bestRestaurants,
@@ -39,22 +40,22 @@ const bestRestaurantsRetriever = createSelector(
 );
 
 export function BestRestaurants() {
-  // Initializations
-  const { bestRestaurants } = useSelector(bestRestaurantsRetriever);
+  //INITTIALIZATIONS
   const history = useHistory();
+  const { bestRestaurants } = useSelector(bestRestaurantRetriever);
   const refs: any = useRef([]);
 
-  /** Handlers */
+  /**HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
     history.push(`/restaurant/${id}`);
   };
-  const goRestaurantHandler = () => history.push("/restaurant");
+  const goRestaurantsHandler = () => history.push("/restaurant");
   const targetLikeBest = async (e: any, id: string) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+      assert.ok(verifiedMemberData, Definer.auth_err1);
 
       const memberService = new MemberApiService(),
-        like_result: any = await memberService.memberLikeTarget({
+        like_result = await memberService.memberLikeTarget({
           like_ref_id: id,
           group_type: "member",
         });
@@ -67,22 +68,20 @@ export function BestRestaurants() {
         e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
       }
-
       await sweetTopSmallSuccessAlert("success", 700, false);
     } catch (err: any) {
       console.log("targetLikeBest, ERROR:", err);
       sweetErrorHandling(err).then();
     }
   };
-
   return (
     <div className="best_restaurant_frame">
       <img
-        src={"./icons/line_group.svg"}
+        src="./icons/line_group.svg"
         style={{
           position: "absolute",
           left: "6%",
-          transform: "rotate(0deg)",
+          transform: "rotate(90deg)",
         }}
       />
       <Container sx={{ paddingTop: "153px" }}>
@@ -92,7 +91,7 @@ export function BestRestaurants() {
             {bestRestaurants.map((ele: Restaurant) => {
               const image_path = `${serverApi}/${ele.mb_image}`;
               return (
-                <CssVarsProvider>
+                <CssVarsProvider key={ele._id}>
                   <Card
                     onClick={() => chosenRestaurantHandler(ele._id)}
                     variant="outlined"
@@ -137,7 +136,7 @@ export function BestRestaurants() {
                       </IconButton>
                     </CardOverflow>
                     <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      {ele.mb_nick}
+                      {ele.mb_nick} restaurant
                     </Typography>
                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 2 }}>
                       <Link
@@ -215,7 +214,7 @@ export function BestRestaurants() {
           >
             <Button
               style={{ background: "#1976D2", color: "#FFFFFF" }}
-              onClick={goRestaurantHandler}
+              onClick={goRestaurantsHandler}
             >
               Barchasini ko'rish
             </Button>

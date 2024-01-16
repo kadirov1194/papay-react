@@ -164,7 +164,7 @@ export const TuiEditor = (props: any) => {
           style={{ margin: "30px", width: "250px", height: "45px" }}
           onClick={handleRegisterButton}
         >
-          Registar
+          Register
         </Button>
       </Stack>
     </Stack>
