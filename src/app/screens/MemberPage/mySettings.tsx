@@ -78,7 +78,7 @@ export function MySettings(props: any) {
     <Stack className="my_settings_page">
       <Box className={"member_media_frame"}>
         <img
-          src="/icons/default_img.svg"
+          src={file}
           className="mb_image"
           style={{ borderRadius: "50%" }}
           width={"100px"}

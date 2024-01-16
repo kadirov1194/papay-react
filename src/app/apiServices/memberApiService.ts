@@ -4,6 +4,7 @@ import axios from "axios";
 import { Definer } from "../../lib/Definer";
 import { Member, MemberUpdateData } from "../../types/user";
 import { MemberLiken } from "../../types/others";
+
 class MemberApiService {
   private readonly path: string;
 
