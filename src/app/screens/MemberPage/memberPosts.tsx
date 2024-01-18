@@ -78,7 +78,7 @@ export function MemberPosts(props: any) {
                 flexDirection={"column"}
                 sx={{ mt: "15px" }}
               >
-                <span className="all_article_title">R{article?.bo_id}</span>
+                <span className="all_article_title">{article?.bo_id}</span>
                 <p className="all_article_desc">{article?.art_subject}</p>
               </Box>
               <Box>

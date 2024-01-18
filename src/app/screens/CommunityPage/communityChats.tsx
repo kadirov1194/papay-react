@@ -14,6 +14,9 @@ import {
   sweetErrorHandling,
   sweetFailureProvider,
 } from "../../../lib/sweetAlert";
+import { ChatGreetMsg, ChatInfoMsg, ChatMessage } from "../../../types/others";
+import { SocketContext } from "../../contex/socket";
+import { RippleBadge } from "../../MaterialTheme/styled";
 
 const NewMessage = (data: any) => {
   if (data.new_mesage.mb_id == verifiedMemberData?._id) {
@@ -45,51 +48,51 @@ const NewMessage = (data: any) => {
 export function CommunityChats() {
   // INITIALIZATION
   const [messagesList, setMessagesList] = useState([]);
-  //const socket = useContext(SocketContext);
+  const socket = useContext(SocketContext);
   const [onlineUsers, setOnlineUsers] = useState<number>(0);
   const textInput: any = useRef(null);
   const [message, setMessage] = useState<string>("");
 
-  // useEffect(() => {
-  //   socket.connect();
-  //   console.log("PRINTED");
-  //   socket?.on("connect", function () {
-  //     console.log("CLIENT: connected");
-  //   });
-  //   socket?.on("newMsg", (new_mesage: ChatMessage) => {
-  //     console.log("CLIENT: new message");
-  //     messagesList.push(
-  //       //@ts-ignore
-  //       <NewMessage new_mesage={new_mesage} key={messagesList.length} />
-  //     );
-  //     setMessagesList([...messagesList]);
-  //   });
+  useEffect(() => {
+    socket.connect();
+    console.log("PRINTED");
+    socket?.on("connect", function () {
+      console.log("CLIENT: connected");
+    });
+    socket?.on("newMsg", (new_mesage: ChatMessage) => {
+      console.log("CLIENT: new message");
+      messagesList.push(
+        //@ts-ignore
+        <NewMessage new_mesage={new_mesage} key={messagesList.length} />
+      );
+      setMessagesList([...messagesList]);
+    });
 
-  //   socket?.on("greetMsg", (msg: ChatGreetMsg) => {
-  //     console.log("CLIENT: greet message");
-  //     messagesList.push(
-  //       //@ts-ignore
-  //       <p
-  //         style={{
-  //           textAlign: "center",
-  //           fontSize: "large",
-  //           fontFamily: "serif",
-  //         }}
-  //       >
-  //         {msg.text}, dear {verifiedMemberData?.mb_nick ?? "guest"}
-  //       </p>
-  //     );
-  //     setMessagesList([...messagesList]);
-  //   });
+    socket?.on("greetMsg", (msg: ChatGreetMsg) => {
+      console.log("CLIENT: greet message");
+      messagesList.push(
+        //@ts-ignore
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "large",
+            fontFamily: "serif",
+          }}
+        >
+          {msg.text}, dear {verifiedMemberData?.mb_nick ?? "guest"}
+        </p>
+      );
+      setMessagesList([...messagesList]);
+    });
 
-  //   socket?.on("infoMsg", (msg: ChatInfoMsg) => {
-  //     console.log("CLIENT: info message");
-  //     setOnlineUsers(msg.total);
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [socket]);
+    socket?.on("infoMsg", (msg: ChatInfoMsg) => {
+      console.log("CLIENT: info message");
+      setOnlineUsers(msg.total);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
 
   /**HANDLER */
   const getInputMesageHandler = useCallback(
@@ -124,53 +127,39 @@ export function CommunityChats() {
       const mb_image_url =
         verifiedMemberData?.mb_image ?? "/icons/default_img.svg";
 
-      // socket.emit("createMsg", {
-      //   msg: message,
-      //   mb_id: verifiedMemberData?._id,
-      //   mb_nick: verifiedMemberData?.mb_nick,
-      //   mb_image: mb_image_url,
-      // });
-      // setMessage("");
+      socket.emit("createMsg", {
+        msg: message,
+        mb_id: verifiedMemberData?._id,
+        mb_nick: verifiedMemberData?.mb_nick,
+        mb_image: mb_image_url,
+      });
+      setMessage("");
     } catch (err: any) {
       console.log("onClickhandler, Error", err);
       sweetErrorHandling(err).then();
     }
   };
-
   return (
-    <Stack className={"chat_frame"}>
-      <Box className={"chat_top"}>Jonli Muloqot</Box>
+    <Stack className="chat_frame">
+      <Box className={"chat_top"}>
+        <div>Jonli Muloqot</div>
+        <RippleBadge
+          style={{ margin: "-30px 0 0 20px" }}
+          badgeContent={onlineUsers}
+        />
+      </Box>
       <Box className={"chat_content"}>
-        <Box className={"chat_main"}>
+        <Stack className="chat_main">
           <Box
             flexDirection={"row"}
             style={{ display: "flex" }}
             sx={{ m: "10px 0px" }}
           >
-            <div className={"msg_left"}>Bu yer jonli muloqot</div>
+            <div className="msg_left">Bu yerda jonli muloqot</div>
           </Box>
           {messagesList}
-
-          <Box
-            flexDirection={"row"}
-            style={{ display: "flex" }}
-            alignItems={"flex-end"}
-            justifyContent={"flex-end"}
-            sx={{ m: "10px 0px" }}
-          >
-            <div className={"msg_right"}>Bu yer sizning habaringiz</div>
-          </Box>
-          <Box
-            flexDirection={"row"}
-            style={{ display: "flex" }}
-            sx={{ m: "10px 0px" }}
-          >
-            <Avatar alt={"Khan"} src={"/community/cute_girl.jpeg"} />
-            <div className={"msg_left"}>Bu yerda boshqalarni habari</div>
-          </Box>
-        </Box>
+        </Stack>
       </Box>
-
       <Box className={"chat_bott"}>
         <input
           ref={textInput}
